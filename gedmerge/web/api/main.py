@@ -700,14 +700,19 @@ async def repair_places(request: RepairRequest):
     try:
         import re
         from ...rootsmagic.adapter import RootsMagicDatabase
+        from ...utils.audit_trail import AuditTrail, OperationType
 
         db = RootsMagicDatabase(request.database_path)
+        audit = AuditTrail(request.database_path)
 
         standardized = 0
         merged = 0
         updated = 0
 
         logger.info(f"Repairing places in {request.database_path}")
+
+        # Start audit session
+        session_id = audit.start_session("repair_places", {"database": str(request.database_path)})
 
         with db.transaction():
             cursor = db.conn.cursor()
@@ -781,6 +786,18 @@ async def repair_places(request: RepairRequest):
                             WHERE PlaceID = ?
                         """, (normalized, place_id))
 
+                        # Log to audit trail
+                        audit.log_change(
+                            operation_type=OperationType.PLACE_STANDARDIZE,
+                            table_name="PlaceTable",
+                            record_id=place_id,
+                            field_name="Name",
+                            old_value=place_name,
+                            new_value=normalized,
+                            reason="Standardized place name format",
+                            session_id=session_id
+                        )
+
             # Update all references to merged places in EventTable
             for old_place_id, new_place_id in place_mapping.items():
                 if old_place_id != new_place_id:
@@ -794,17 +811,40 @@ async def repair_places(request: RepairRequest):
                     cursor.execute("DELETE FROM PlaceTable WHERE PlaceID = ?", (old_place_id,))
                     updated += 1
 
+                    # Log to audit trail
+                    audit.log_change(
+                        operation_type=OperationType.PLACE_MERGE,
+                        table_name="PlaceTable",
+                        record_id=old_place_id,
+                        field_name="PlaceID",
+                        old_value=old_place_id,
+                        new_value=new_place_id,
+                        reason=f"Merged duplicate place into {new_place_id}",
+                        session_id=session_id
+                    )
+
         logger.info(f"Places repair completed: {standardized} standardized, {merged} merged, {updated} updated")
+
+        # End audit session
+        total_places = len(places)
+        audit.end_session(session_id, "completed", total_places, standardized + updated)
 
         return {
             "standardized": standardized,
             "merged": merged,
             "updated": updated,
+            "audit_session_id": session_id,
             "status": "completed",
         }
 
     except Exception as e:
         logger.error(f"Error repairing places: {e}")
+        # End audit session with error status if it was started
+        try:
+            if 'audit' in locals() and 'session_id' in locals():
+                audit.end_session(session_id, "failed", 0, 0)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -816,8 +856,10 @@ async def repair_names(request: RepairRequest):
         from datetime import datetime
         from ...rootsmagic.adapter import RootsMagicDatabase
         from ...utils.name_parser import NameParser
+        from ...utils.audit_trail import AuditTrail, OperationType
 
         db = RootsMagicDatabase(request.database_path)
+        audit = AuditTrail(request.database_path)
 
         reversed_fixed = 0
         variants_extracted = 0
@@ -825,6 +867,9 @@ async def repair_names(request: RepairRequest):
         total_updated = 0
 
         logger.info(f"Repairing names in {request.database_path}")
+
+        # Start audit session
+        session_id = audit.start_session("repair_names", {"database": str(request.database_path)})
 
         with db.transaction():
             cursor = db.conn.cursor()
@@ -974,18 +1019,43 @@ async def repair_names(request: RepairRequest):
                     """, (new_surname or '', new_given or '', new_prefix or '', new_suffix or '', new_nickname or '', utc_mod_date, name_id))
                     total_updated += 1
 
+                    # Log to audit trail (record the main changes)
+                    old_full_name = f"{prefix or ''} {given or ''} {surname or ''} {suffix or ''}".strip()
+                    new_full_name = f"{new_prefix or ''} {new_given or ''} {new_surname or ''} {new_suffix or ''}".strip()
+
+                    audit.log_change(
+                        operation_type=OperationType.NAME_REVERSE if ',' in (given or '') else OperationType.NAME_MOVE_PREFIX,
+                        table_name="NameTable",
+                        record_id=name_id,
+                        field_name="FullName",
+                        old_value=old_full_name,
+                        new_value=new_full_name,
+                        reason="Name structure repair",
+                        session_id=session_id
+                    )
+
         logger.info(f"Names repair completed: {reversed_fixed} reversed, {variants_extracted} variants, {titles_moved} titles, {total_updated} total updated")
+
+        # End audit session
+        audit.end_session(session_id, "completed", len(names), total_updated)
 
         return {
             "reversed_fixed": reversed_fixed,
             "variants_extracted": variants_extracted,
             "titles_moved": titles_moved,
             "total_updated": total_updated,
+            "audit_session_id": session_id,
             "status": "completed",
         }
 
     except Exception as e:
         logger.error(f"Error repairing names: {e}")
+        # End audit session with error status if it was started
+        try:
+            if 'audit' in locals() and 'session_id' in locals():
+                audit.end_session(session_id, "failed", 0, 0)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -996,15 +1066,23 @@ async def repair_events(request: RepairRequest):
         import re
         from datetime import datetime
         from ...rootsmagic.adapter import RootsMagicDatabase
+        from ...utils.date_decoder import decode_rootsmagic_date, RootsMagicDateDecoder, MultiLanguageDateParser
+        from ...utils.audit_trail import AuditTrail, OperationType
 
         db = RootsMagicDatabase(request.database_path)
+        audit = AuditTrail(request.database_path)
 
         dates_fixed = 0
+        dates_decoded = 0
+        dates_normalized = 0
         formats_standardized = 0
         chronological_fixed = 0
         total_updated = 0
 
         logger.info(f"Repairing events in {request.database_path}")
+
+        # Start audit session
+        session_id = audit.start_session("repair_events", {"database": str(request.database_path)})
 
         with db.transaction():
             cursor = db.conn.cursor()
@@ -1049,13 +1127,30 @@ async def repair_events(request: RepairRequest):
                         logger.warning(f"Person {person_id} has birth after death: birth={birth_date}, death={death_date}")
                         chronological_fixed += 1
 
-            # Standardize date formats
+            # Standardize date formats and decode dates
             for event_id, owner_type, owner_id, event_type, date, sort_date, details in events:
                 updated = False
                 new_date = date
                 new_sort_date = sort_date
 
-                if date:
+                # Try to decode and normalize the date using the date decoder
+                decoded_date = decode_rootsmagic_date(date, sort_date)
+
+                if decoded_date and decoded_date != date:
+                    # Date was successfully decoded/normalized
+                    new_date = decoded_date
+                    updated = True
+
+                    # Check if it was decoded from SortDate (no valid date string but valid SortDate)
+                    if not date or not re.search(r'\d{3,4}', date):
+                        dates_decoded += 1
+                        logger.debug(f"Event {event_id}: Decoded SortDate {sort_date} -> {decoded_date}")
+                    else:
+                        dates_normalized += 1
+                        logger.debug(f"Event {event_id}: Normalized date '{date}' -> '{decoded_date}'")
+
+                elif date:
+                    # Fall back to basic cleaning if decoder couldn't parse
                     # Remove extra whitespace
                     cleaned_date = re.sub(r'\s+', ' ', date).strip()
                     if cleaned_date != date:
@@ -1086,18 +1181,46 @@ async def repair_events(request: RepairRequest):
                     """, (new_date, event_id))
                     total_updated += 1
 
-        logger.info(f"Events repair completed: {dates_fixed} dates, {formats_standardized} formats, {chronological_fixed} chronological, {total_updated} total updated")
+                    # Log to audit trail
+                    operation_type = (
+                        OperationType.EVENT_DATE_FIX if dates_decoded > 0 or dates_normalized > 0
+                        else OperationType.EVENT_DATE_STANDARDIZE
+                    )
+                    audit.log_change(
+                        operation_type=operation_type,
+                        table_name="EventTable",
+                        record_id=event_id,
+                        field_name="Date",
+                        old_value=date,
+                        new_value=new_date,
+                        reason=f"Date decoder: {date} -> {new_date}",
+                        session_id=session_id
+                    )
+
+        logger.info(f"Events repair completed: {dates_decoded} decoded, {dates_normalized} normalized, {dates_fixed} dates, {formats_standardized} formats, {chronological_fixed} chronological, {total_updated} total updated")
+
+        # End audit session
+        audit.end_session(session_id, "completed", len(events), total_updated)
 
         return {
+            "dates_decoded": dates_decoded,
+            "dates_normalized": dates_normalized,
             "dates_fixed": dates_fixed,
             "formats_standardized": formats_standardized,
             "chronological_fixed": chronological_fixed,
             "total_updated": total_updated,
+            "audit_session_id": session_id,
             "status": "completed",
         }
 
     except Exception as e:
         logger.error(f"Error repairing events: {e}")
+        # End audit session with error status if it was started
+        try:
+            if 'audit' in locals() and 'session_id' in locals():
+                audit.end_session(session_id, "failed", 0, 0)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -1106,8 +1229,10 @@ async def repair_people(request: RepairRequest):
     """Repair people and family relationship issues."""
     try:
         from ...rootsmagic.adapter import RootsMagicDatabase
+        from ...utils.audit_trail import AuditTrail, OperationType
 
         db = RootsMagicDatabase(request.database_path)
+        audit = AuditTrail(request.database_path)
 
         relationships_fixed = 0
         orphans_linked = 0
@@ -1115,6 +1240,9 @@ async def repair_people(request: RepairRequest):
         total_updated = 0
 
         logger.info(f"Repairing people and families in {request.database_path}")
+
+        # Start audit session
+        session_id = audit.start_session("repair_people", {"database": str(request.database_path)})
 
         with db.transaction():
             cursor = db.conn.cursor()
@@ -1247,16 +1375,26 @@ async def repair_people(request: RepairRequest):
 
         logger.info(f"People repair completed: {relationships_fixed} relationships, {orphans_linked} orphans, {families_repaired} families, {total_updated} total updated")
 
+        # End audit session
+        audit.end_session(session_id, "completed", len(persons) if 'persons' in locals() else 0, total_updated)
+
         return {
             "relationships_fixed": relationships_fixed,
             "orphans_linked": orphans_linked,
             "families_repaired": families_repaired,
             "total_updated": total_updated,
+            "audit_session_id": session_id,
             "status": "completed",
         }
 
     except Exception as e:
         logger.error(f"Error repairing people: {e}")
+        # End audit session with error status if it was started
+        try:
+            if 'audit' in locals() and 'session_id' in locals():
+                audit.end_session(session_id, "failed", 0, 0)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -1599,24 +1737,47 @@ async def sanity_check(request: RepairRequest):
 async def repair_all(request: RepairRequest):
     """Run all repairs on a database."""
     try:
+        import sqlite3
+        from ...rootsmagic.adapter import RootsMagicDatabase
+        from ...utils.audit_trail import AuditTrail
+
         logger.info(f"Running all repairs on {request.database_path}")
+
+        # Create master audit session
+        audit = AuditTrail(request.database_path)
+        master_session_id = audit.start_session("repair_all", {"database": str(request.database_path)})
+
+        # Helper function to checkpoint database between operations
+        def checkpoint_database():
+            """Checkpoint and release database locks between operations."""
+            try:
+                with RootsMagicDatabase(request.database_path) as db:
+                    db.conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+                    db.conn.commit()
+                logger.info("Database checkpointed successfully")
+            except Exception as e:
+                logger.warning(f"Checkpoint warning (non-fatal): {e}")
 
         # Run all repair functions in sequence
         # 1. Repair places first (needed for event references)
         logger.info("Step 1/4: Repairing places...")
         places_result = await repair_places(request)
+        checkpoint_database()
 
         # 2. Repair names
         logger.info("Step 2/4: Repairing names...")
         names_result = await repair_names(request)
+        checkpoint_database()
 
         # 3. Repair events
         logger.info("Step 3/4: Repairing events...")
         events_result = await repair_events(request)
+        checkpoint_database()
 
         # 4. Repair people and relationships
         logger.info("Step 4/4: Repairing people and relationships...")
         people_result = await repair_people(request)
+        checkpoint_database()
 
         # Aggregate results
         places_repaired = places_result.get("standardized", 0) + places_result.get("merged", 0)
@@ -1626,6 +1787,9 @@ async def repair_all(request: RepairRequest):
         total_updated = places_repaired + names_repaired + events_repaired + relationships_repaired
 
         logger.info(f"All repairs completed: {total_updated} total updates")
+
+        # End master audit session
+        audit.end_session(master_session_id, "completed", 0, total_updated)
 
         return {
             "places_repaired": places_repaired,
@@ -1637,11 +1801,18 @@ async def repair_all(request: RepairRequest):
             "names_details": names_result,
             "events_details": events_result,
             "people_details": people_result,
+            "master_audit_session_id": master_session_id,
             "status": "completed",
         }
 
     except Exception as e:
         logger.error(f"Error running all repairs: {e}")
+        # End audit session with error status if it was started
+        try:
+            if 'audit' in locals() and 'master_session_id' in locals():
+                audit.end_session(master_session_id, "failed", 0, 0)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
