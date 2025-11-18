@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GedMerge ML Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e1e8ed;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: #657786;
+            font-size: 1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover {
+            color: #1da1f2;
+        }
+
+        .nav-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .model-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #657786;
+            font-size: 0.9rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .result {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .result-success {
+            border-left-color: #27ae60;
+            background: #d4edda;
+        }
+
+        .result-error {
+            border-left-color: #e74c3c;
+            background: #f8d7da;
+        }
+
+        .progress {
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .job-list {
+            margin-top: 1rem;
+        }
+
+        .job-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-queued { background: #ffeaa7; color: #2d3436; }
+        .status-running { background: #74b9ff; color: #2d3436; }
+        .status-completed { background: #55efc4; color: #2d3436; }
+        .status-failed { background: #ff7675; color: white; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #657786;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🧬 GedMerge ML Dashboard</h1>
+            <p>Machine Learning for Genealogy Data Quality & Duplicate Detection</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+            <button class="nav-tab" onclick="showTab('repairs')">Data Repairs</button>
+            <button class="nav-tab" onclick="showTab('quality')">Data Quality Check</button>
+            <button class="nav-tab" onclick="showTab('train')">Training</button>
+            <button class="nav-tab" onclick="showTab('models')">Models</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-models">0</div>
+                    <div class="stat-label">ML Models</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="active-jobs">0</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="predictions-today">0</div>
+                    <div class="stat-label">Predictions Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98.5%</div>
+                    <div class="stat-label">Avg Accuracy</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 System Status</h2>
+                <div class="metric">
+                    <span class="metric-label">API Status</span>
+                    <span class="metric-value" id="api-status">Checking...</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Last Update</span>
+                    <span class="metric-value" id="last-update">-</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Quick Actions</h2>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showTab('repairs')">Data Repairs</button>
+                    <button class="btn btn-warning" onclick="showTab('quality')">Quality Check</button>
+                    <button class="btn btn-success" onclick="showTab('train')">Train Models</button>
+                    <button class="btn btn-primary" onclick="refreshModels()">Refresh Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Models Tab -->
+        <div id="models" class="tab-content">
+            <div class="card">
+                <h2>🤖 Registered ML Models</h2>
+                <div class="model-grid" id="model-grid">
+                    <p>Loading models...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Repairs Tab -->
+        <div id="repairs" class="tab-content">
+            <div class="card">
+                <h2>🔧 Data Repairs</h2>
+                <p style="color: #657786; margin-bottom: 1.5rem;">
+                    Repair and standardize data in your genealogy database. Upload a file or enter a path, then run specific repairs.
+                </p>
+
+                <div class="form-group">
+                    <label>Database File</label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="repairs-db-file" accept=".rmtree,.ged,.db" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="uploadRepairsFile()" style="white-space: nowrap;">📤 Upload</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Or Enter Database Path</label>
+                    <input type="text" id="repairs-db-path" placeholder="/path/to/database.rmtree">
+                </div>
+
+                <div id="repairs-upload-status"></div>
+
+                <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e1e8ed;">
+
+                <h3 style="margin-bottom: 1rem;">Run Repairs</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-success" onclick="repairPlaces()">🌍 Fix Places</button>
+                    <button class="btn btn-success" onclick="repairNames()">👤 Repair Names</button>
+                    <button class="btn btn-success" onclick="repairEvents()">📅 Repair Events</button>
+                    <button class="btn btn-success" onclick="repairPeople()">👨‍👩‍👧‍👦 Repair People/Families</button>
+                </div>
+
+                <div id="repairs-results" style="margin-top: 2rem;"></div>
+            </div>
+
+            <div class="card">
+                <h2>🔍 What Each Repair Does</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">🌍 Places</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Standardize format (City, County, State, Country)</li>
+                            <li>Match multilingual variations</li>
+                            <li>Fix abbreviations</li>
+                            <li>Resolve hierarchies</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">👤 Names</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Fix reversed names</li>
+                            <li>Extract embedded variants</li>
+                            <li>Move titles to proper fields</li>
+                            <li>Standardize formatting</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">📅 Events</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Validate dates</li>
+                            <li>Fix date formats</li>
+                            <li>Standardize event types</li>
+                            <li>Check chronological order</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">👨‍👩‍👧‍👦 People/Families</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Fix relationship inconsistencies</li>
+                            <li>Validate family structures</li>
+                            <li>Check for orphaned records</li>
+                            <li>Repair missing links</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training Tab -->
+        <div id="train" class="tab-content">
+            <div class="card">
+                <h2>🎓 Train New Model</h2>
+                <div class="form-group">
+                    <label>Model Type</label>
+                    <select id="train-model-type">
+                        <option value="duplicate_detector">Duplicate Detector</option>
+                        <option value="name_matcher">Name Matcher</option>
+                        <option value="language_detector">Language Detector</option>
+                        <option value="quality_classifier">Quality Classifier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Database File Upload</label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="train-db-file" accept=".rmtree,.ged,.db" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="uploadFile()" style="white-space: nowrap;">📤 Upload File</button>
+                    </div>
+                    <small style="color: #657786; display: block; margin-top: 0.5rem;">
+                        Supported formats: .rmtree (RootsMagic), .ged (GEDCOM), .db (SQLite)
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Or Enter Database Path</label>
+                    <input type="text" id="train-db-path" placeholder="/path/to/database.rmtree">
+                    <small style="color: #657786; display: block; margin-top: 0.5rem;">
+                        Use absolute path or upload a file above
+                    </small>
+                </div>
+                <div id="upload-status" style="margin-top: 1rem;"></div>
+                <button class="btn btn-success" onclick="startTraining()">Start Training</button>
+            </div>
+
+            <div class="card">
+                <h2>📋 Training Jobs</h2>
+                <div class="job-list" id="job-list">
+                    <p>No training jobs yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Quality Tab -->
+        <div id="quality" class="tab-content">
+            <div class="card">
+                <h2>🔍 Data Sanity Check</h2>
+                <p style="color: #657786; margin-bottom: 1.5rem;">
+                    Run comprehensive data quality checks on your genealogy database. This will examine all aspects of your data and report issues.
+                </p>
+
+                <div class="form-group">
+                    <label>Database File</label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="quality-db-file" accept=".rmtree,.ged,.db" style="flex: 1;">
+                        <button class="btn btn-primary" onclick="uploadQualityFile()" style="white-space: nowrap;">📤 Upload</button>
+                    </div>
+                </div>
+
+                <div id="quality-upload-status"></div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-warning" onclick="runSanityCheck()">🔍 Run Sanity Check</button>
+                    <button class="btn btn-success" onclick="runAllRepairs()">🔧 Repair All Issues</button>
+                </div>
+
+                <div id="quality-results" style="margin-top: 2rem;"></div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Quality Metrics</h2>
+                <div id="quality-stats">
+                    <p style="color: #657786;">Upload a database and run sanity check to see quality metrics.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🔍 What We Check</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">Names Quality</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Reversed names</li>
+                            <li>Embedded variants</li>
+                            <li>Titles in wrong fields</li>
+                            <li>Placeholder names</li>
+                            <li>Inconsistent formatting</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">Places Quality</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Non-standardized formats</li>
+                            <li>Duplicate places</li>
+                            <li>Missing hierarchies</li>
+                            <li>Abbreviations</li>
+                            <li>Inconsistent naming</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">Events Quality</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Invalid dates</li>
+                            <li>Chronological errors</li>
+                            <li>Missing data</li>
+                            <li>Inconsistent formats</li>
+                            <li>Impossible events</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">Relationships Quality</h4>
+                        <ul style="margin-left: 1.5rem; color: #657786; font-size: 0.9rem;">
+                            <li>Broken relationships</li>
+                            <li>Orphaned records</li>
+                            <li>Missing links</li>
+                            <li>Circular references</li>
+                            <li>Invalid structures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Workflow</h2>
+                <p style="color: #657786; margin-bottom: 1rem;">Recommended workflow for data cleanup:</p>
+                <ol style="margin-left: 2rem; color: #657786; line-height: 1.8;">
+                    <li><strong>Run Sanity Check</strong> - Identify all data quality issues</li>
+                    <li><strong>Review Issues</strong> - Examine the report and decide what to fix</li>
+                    <li><strong>Run Specific Repairs</strong> - Use the Data Repairs tab to fix each category</li>
+                    <li><strong>Verify Fixes</strong> - Run sanity check again to confirm improvements</li>
+                    <li><strong>Deduplicate</strong> - Once data is clean, run duplicate detection</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let models = {};
+        let jobs = {};
+        let qualityDbPath = null;
+        let detailedErrors = [];
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load data when switching to certain tabs
+            if (tabName === 'models') {
+                refreshModels();
+            } else if (tabName === 'train') {
+                refreshJobs();
+            }
+        }
+
+        // Check API health
+        async function checkHealth() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+
+                document.getElementById('api-status').textContent = data.status === 'healthy' ? '✅ Healthy' : '❌ Error';
+                document.getElementById('last-update').textContent = new Date(data.timestamp).toLocaleString();
+            } catch (error) {
+                document.getElementById('api-status').textContent = '❌ Offline';
+            }
+        }
+
+        // Refresh models
+        async function refreshModels() {
+            try {
+                const response = await fetch('/api/models');
+                models = await response.json();
+
+                const grid = document.getElementById('model-grid');
+                grid.innerHTML = '';
+
+                const modelCount = Object.keys(models).length;
+                document.getElementById('total-models').textContent = modelCount;
+
+                if (modelCount === 0) {
+                    grid.innerHTML = '<p>No models registered yet. Train a model to get started!</p>';
+                    return;
+                }
+
+                for (const [name, info] of Object.entries(models)) {
+                    const card = document.createElement('div');
+                    card.className = 'model-card';
+
+                    const metrics = info.metrics || {};
+                    const metricsHTML = Object.entries(metrics)
+                        .map(([key, value]) => `
+                            <div class="metric">
+                                <span class="metric-label">${key}</span>
+                                <span class="metric-value">${typeof value === 'number' ? value.toFixed(4) : value}</span>
+                            </div>
+                        `).join('');
+
+                    card.innerHTML = `
+                        <h3>${name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
+                        <div class="metric">
+                            <span class="metric-label">Version</span>
+                            <span class="metric-value">${info.latest_version}</span>
+                        </div>
+                        ${metricsHTML}
+                        <div class="metric">
+                            <span class="metric-label">Registered</span>
+                            <span class="metric-value">${new Date(info.registered_at).toLocaleDateString()}</span>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                }
+            } catch (error) {
+                console.error('Error fetching models:', error);
+                document.getElementById('model-grid').innerHTML = '<p>Error loading models.</p>';
+            }
+        }
+
+        // Upload file for repairs
+        async function uploadRepairsFile() {
+            const fileInput = document.getElementById('repairs-db-file');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+
+            const statusDiv = document.getElementById('repairs-upload-status');
+            statusDiv.innerHTML = '<p style="color: #667eea;">⏳ Uploading file...</p>';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    // Try to get detailed error message from response
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMessage = errorData.detail;
+                        }
+                    } catch (e) {
+                        // If JSON parsing fails, use status text
+                        console.error('Failed to parse error response:', e);
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+
+                // Update the database path input with uploaded file path
+                document.getElementById('repairs-db-path').value = result.file_path;
+
+                statusDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ File uploaded successfully!<br>
+                        <strong>Path:</strong> ${result.file_path}<br>
+                        <strong>Size:</strong> ${(result.file_size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Upload error:', error);
+                statusDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Upload failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Upload file for quality check
+        async function uploadQualityFile() {
+            const fileInput = document.getElementById('quality-db-file');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+
+            const statusDiv = document.getElementById('quality-upload-status');
+            statusDiv.innerHTML = '<p style="color: #667eea;">⏳ Uploading file...</p>';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    // Try to get detailed error message from response
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMessage = errorData.detail;
+                        }
+                    } catch (e) {
+                        // If JSON parsing fails, use status text
+                        console.error('Failed to parse error response:', e);
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+
+                // Store the uploaded file path
+                qualityDbPath = result.file_path;
+
+                statusDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ File uploaded successfully!<br>
+                        <strong>Path:</strong> ${result.file_path}<br>
+                        <strong>Size:</strong> ${(result.file_size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Upload error:', error);
+                statusDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Upload failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Upload file
+        async function uploadFile() {
+            const fileInput = document.getElementById('train-db-file');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+
+            const statusDiv = document.getElementById('upload-status');
+            statusDiv.innerHTML = '<p style="color: #667eea;">⏳ Uploading file...</p>';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    // Try to get detailed error message from response
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMessage = errorData.detail;
+                        }
+                    } catch (e) {
+                        // If JSON parsing fails, use status text
+                        console.error('Failed to parse error response:', e);
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+
+                // Update the database path input with uploaded file path
+                document.getElementById('train-db-path').value = result.file_path;
+
+                statusDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ File uploaded successfully!<br>
+                        <strong>Path:</strong> ${result.file_path}<br>
+                        <strong>Size:</strong> ${(result.file_size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Upload error:', error);
+                statusDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Upload failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Start training
+        async function startTraining() {
+            const modelType = document.getElementById('train-model-type').value;
+            const dbPath = document.getElementById('train-db-path').value;
+
+            if (!dbPath) {
+                alert('Please enter database path or upload a file');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/train', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model_type: modelType,
+                        database_path: dbPath
+                    })
+                });
+
+                const result = await response.json();
+                alert(`Training job started: ${result.job_id}`);
+                refreshJobs();
+            } catch (error) {
+                alert('Error starting training: ' + error.message);
+            }
+        }
+
+        // Refresh training jobs
+        async function refreshJobs() {
+            try {
+                const response = await fetch('/api/train');
+                const jobsList = await response.json();
+
+                jobs = {};
+                jobsList.forEach(job => {
+                    jobs[job.job_id] = job;
+                });
+
+                const jobListDiv = document.getElementById('job-list');
+                jobListDiv.innerHTML = '';
+
+                let activeCount = 0;
+                if (jobsList.length === 0) {
+                    jobListDiv.innerHTML = '<p>No training jobs yet.</p>';
+                } else {
+                    jobsList.forEach(job => {
+                        if (job.status === 'running' || job.status === 'queued') {
+                            activeCount++;
+                        }
+
+                        const jobItem = document.createElement('div');
+                        jobItem.className = 'job-item';
+                        jobItem.innerHTML = `
+                            <div>
+                                <strong>${job.model_type.replace(/_/g, ' ')}</strong><br>
+                                <small>ID: ${job.job_id}</small>
+                            </div>
+                            <span class="status-badge status-${job.status}">${job.status}</span>
+                        `;
+                        jobListDiv.appendChild(jobItem);
+                    });
+                }
+
+                document.getElementById('active-jobs').textContent = activeCount;
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+            }
+        }
+
+        // Repair places
+        async function repairPlaces() {
+            const dbPath = document.getElementById('repairs-db-path').value;
+
+            if (!dbPath) {
+                alert('Please enter database path or upload a file');
+                return;
+            }
+
+            if (!confirm('This will standardize and repair place names in your database. Continue?')) {
+                return;
+            }
+
+            const resultsDiv = document.getElementById('repairs-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Repairing places...</p>';
+
+            try {
+                const response = await fetch('/api/repairs/places', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: dbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Repair failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ Places repaired successfully!<br>
+                        <strong>Standardized:</strong> ${result.standardized} places<br>
+                        <strong>Merged:</strong> ${result.merged} duplicate places<br>
+                        <strong>Updated:</strong> ${result.updated} records
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Repair failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Repair names
+        async function repairNames() {
+            const dbPath = document.getElementById('repairs-db-path').value;
+
+            if (!dbPath) {
+                alert('Please enter database path or upload a file');
+                return;
+            }
+
+            if (!confirm('This will fix name issues like reversed names, embedded variants, and titles. Continue?')) {
+                return;
+            }
+
+            const resultsDiv = document.getElementById('repairs-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Repairing names...</p>';
+
+            try {
+                const response = await fetch('/api/repairs/names', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: dbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Repair failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ Names repaired successfully!<br>
+                        <strong>Reversed names fixed:</strong> ${result.reversed_fixed}<br>
+                        <strong>Variants extracted:</strong> ${result.variants_extracted}<br>
+                        <strong>Titles moved:</strong> ${result.titles_moved}<br>
+                        <strong>Total updated:</strong> ${result.total_updated} records
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Repair failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Repair events
+        async function repairEvents() {
+            const dbPath = document.getElementById('repairs-db-path').value;
+
+            if (!dbPath) {
+                alert('Please enter database path or upload a file');
+                return;
+            }
+
+            if (!confirm('This will fix event issues like invalid dates and chronological errors. Continue?')) {
+                return;
+            }
+
+            const resultsDiv = document.getElementById('repairs-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Repairing events...</p>';
+
+            try {
+                const response = await fetch('/api/repairs/events', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: dbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Repair failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ Events repaired successfully!<br>
+                        <strong>Invalid dates fixed:</strong> ${result.dates_fixed}<br>
+                        <strong>Formats standardized:</strong> ${result.formats_standardized}<br>
+                        <strong>Chronological errors fixed:</strong> ${result.chronological_fixed}<br>
+                        <strong>Total updated:</strong> ${result.total_updated} records
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Repair failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Repair people and families
+        async function repairPeople() {
+            const dbPath = document.getElementById('repairs-db-path').value;
+
+            if (!dbPath) {
+                alert('Please enter database path or upload a file');
+                return;
+            }
+
+            if (!confirm('This will fix relationship and family structure issues. Continue?')) {
+                return;
+            }
+
+            const resultsDiv = document.getElementById('repairs-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Repairing people and families...</p>';
+
+            try {
+                const response = await fetch('/api/repairs/people', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: dbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Repair failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ People and families repaired successfully!<br>
+                        <strong>Relationships fixed:</strong> ${result.relationships_fixed}<br>
+                        <strong>Orphaned records linked:</strong> ${result.orphans_linked}<br>
+                        <strong>Family structures repaired:</strong> ${result.families_repaired}<br>
+                        <strong>Total updated:</strong> ${result.total_updated} records
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Repair failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Run sanity check
+        async function runSanityCheck() {
+            if (!qualityDbPath) {
+                alert('Please upload a database file first');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('quality-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Running comprehensive sanity check...</p>';
+
+            try {
+                const response = await fetch('/api/quality/sanity-check', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: qualityDbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Sanity check failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                // Display statistics
+                const statsDiv = document.getElementById('quality-stats');
+                statsDiv.innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${result.total_issues}</div>
+                            <div class="stat-label">Total Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${result.name_issues}</div>
+                            <div class="stat-label">Name Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${result.place_issues}</div>
+                            <div class="stat-label">Place Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${result.event_issues}</div>
+                            <div class="stat-label">Event Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${result.relationship_issues}</div>
+                            <div class="stat-label">Relationship Issues</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${result.quality_score}%</div>
+                            <div class="stat-label">Overall Quality</div>
+                        </div>
+                    </div>
+                `;
+
+                // Display results with detailed breakdown
+                let issuesHTML = '';
+                if (result.details && result.details.length > 0) {
+                    issuesHTML = '<h4 style="margin-top: 1rem;">Issue Summary:</h4><ul style="margin-left: 2rem;">';
+                    result.details.forEach(issue => {
+                        issuesHTML += `<li><strong>${issue.category}:</strong> ${issue.description} (${issue.count} instances)</li>`;
+                    });
+                    issuesHTML += '</ul>';
+                }
+
+                // Display detailed errors if available
+                let detailedErrorsHTML = '';
+                if (result.detailed_errors && result.detailed_errors.length > 0) {
+                    // Store errors globally for export
+                    detailedErrors = result.detailed_errors;
+
+                    detailedErrorsHTML = `
+                        <h4 style="margin-top: 1.5rem;">Detailed Error Report:</h4>
+                        <div style="max-height: 500px; overflow-y: auto; background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-top: 0.5rem;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <thead>
+                                    <tr style="background: #667eea; color: white;">
+                                        <th style="padding: 0.5rem; text-align: left;">Category</th>
+                                        <th style="padding: 0.5rem; text-align: left;">Type</th>
+                                        <th style="padding: 0.5rem; text-align: left;">Record ID</th>
+                                        <th style="padding: 0.5rem; text-align: left;">Description</th>
+                                        <th style="padding: 0.5rem; text-align: left;">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+
+                    result.detailed_errors.forEach((error, index) => {
+                        const bgColor = index % 2 === 0 ? '#ffffff' : '#f8f9fa';
+                        detailedErrorsHTML += `
+                            <tr style="background: ${bgColor}; border-bottom: 1px solid #e1e8ed;">
+                                <td style="padding: 0.5rem;">${error.category}</td>
+                                <td style="padding: 0.5rem; font-family: monospace; font-size: 0.8rem;">${error.type}</td>
+                                <td style="padding: 0.5rem; font-family: monospace;">${error.record_id}${error.person_id ? ' (P:' + error.person_id + ')' : ''}</td>
+                                <td style="padding: 0.5rem;">${error.description}</td>
+                                <td style="padding: 0.5rem; font-family: monospace; font-size: 0.75rem; max-width: 300px; overflow-wrap: break-word;">${error.value}</td>
+                            </tr>
+                        `;
+                    });
+
+                    detailedErrorsHTML += `
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+                            <p style="color: #657786; font-size: 0.85rem; margin: 0;">
+                                Showing ${result.detailed_errors.length} detailed error(s).
+                            </p>
+                            <button class="btn btn-primary" onclick="exportErrorsToCSV()" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">
+                                📥 Export to CSV
+                            </button>
+                        </div>
+                    `;
+                }
+
+                resultsDiv.innerHTML = `
+                    <div class="result ${result.total_issues === 0 ? 'result-success' : ''}">
+                        ${result.total_issues === 0 ? '✅' : '⚠️'} Sanity check complete!<br>
+                        <strong>Overall Quality Score:</strong> ${result.quality_score}%<br>
+                        <strong>Total Issues Found:</strong> ${result.total_issues}
+                        ${issuesHTML}
+                        ${detailedErrorsHTML}
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Sanity check failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Run all repairs
+        async function runAllRepairs() {
+            if (!qualityDbPath) {
+                alert('Please upload a database file first');
+                return;
+            }
+
+            if (!confirm('This will run all repairs on your database. This may take several minutes. Continue?')) {
+                return;
+            }
+
+            const resultsDiv = document.getElementById('quality-results');
+            resultsDiv.innerHTML = '<p style="color: #667eea;">⏳ Running all repairs (this may take a while)...</p>';
+
+            try {
+                const response = await fetch('/api/quality/repair-all', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ database_path: qualityDbPath })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Repair failed: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                resultsDiv.innerHTML = `
+                    <div class="result result-success">
+                        ✅ All repairs completed!<br>
+                        <strong>Places:</strong> ${result.places_repaired} repaired<br>
+                        <strong>Names:</strong> ${result.names_repaired} repaired<br>
+                        <strong>Events:</strong> ${result.events_repaired} repaired<br>
+                        <strong>Relationships:</strong> ${result.relationships_repaired} repaired<br>
+                        <strong>Total Records Updated:</strong> ${result.total_updated}
+                    </div>
+                `;
+
+                // Refresh quality stats
+                await runSanityCheck();
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result result-error">
+                        ❌ Repair failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Export detailed errors to CSV
+        function exportErrorsToCSV() {
+            if (!detailedErrors || detailedErrors.length === 0) {
+                alert('No error data to export');
+                return;
+            }
+
+            // CSV header
+            const headers = ['Category', 'Type', 'Record ID', 'Person ID', 'Description', 'Value'];
+            let csv = headers.join(',') + '\n';
+
+            // CSV rows
+            detailedErrors.forEach(error => {
+                const row = [
+                    escapeCSV(error.category),
+                    escapeCSV(error.type),
+                    escapeCSV(error.record_id),
+                    escapeCSV(error.person_id || ''),
+                    escapeCSV(error.description),
+                    escapeCSV(error.value)
+                ];
+                csv += row.join(',') + '\n';
+            });
+
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `sanity-check-errors-${timestamp}.csv`);
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Helper function to escape CSV values
+        function escapeCSV(value) {
+            if (value === null || value === undefined) {
+                return '';
+            }
+            const stringValue = String(value);
+            // If value contains comma, quote, or newline, wrap in quotes and escape quotes
+            if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+                return '"' + stringValue.replace(/"/g, '""') + '"';
+            }
+            return stringValue;
+        }
+
+        // Initialize dashboard
+        window.onload = () => {
+            checkHealth();
+            refreshModels();
+
+            // Refresh data every 30 seconds
+            setInterval(() => {
+                checkHealth();
+                refreshJobs();
+            }, 30000);
+        };
+    </script>
+</body>
+</html>

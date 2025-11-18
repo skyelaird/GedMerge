@@ -1,0 +1,1682 @@
+Analyzing 3 GEDCOM files...
+  - Rootsmagic export 12may18 for consolidation.ged
+  - Joel2020.ged
+  - JOEL.GED
+
+================================================================================
+MULTILINGUAL ANALYSIS OF GEDCOM DATA
+================================================================================
+
+### NOBILITY TITLES FOUND IN NAMES ###
+
+These are titles extracted from NAME, GIVN, and SURN fields:
+
+English:
+  - 10th Baron
+      Example: Sir Robert William /‘Kerr’ Carr 10th Baron Of Ferniehurst/
+      Example: ‘Kerr’ Carr 10th Baron Of Ferniehurst
+  - 10th Earl
+      Example: Richard /FitzAlan KG 11th Earl of Arundel 10th Earl of Surrey/
+      Example: FitzAlan KG 11th Earl of Arundel 10th Earl of Surrey
+  - 11th Earl
+      Example: Richard /FitzAlan KG 11th Earl of Arundel 10th Earl of Surrey/
+      Example: FitzAlan KG 11th Earl of Arundel 10th Earl of Surrey
+  - 1st Baron
+      Example: Thomas II 'The Wise' 1st Baron /Berkeley/
+      Example: Thomas II 'The Wise' 1st Baron
+      Example: Geoffrey 1st Baron /de Geneville/
+  - 1st Lord
+      Example: Hugh 1st Lord de Vere /DeVere/
+      Example: Hugh 1st Lord de Vere
+  - 2nd Baron
+      Example: Maurice III 'the Magnanimous' 2nd Baron Berkeley /Berkeley/
+      Example: Maurice III 'the Magnanimous' 2nd Baron Berkeley
+  - 2nd Earl
+      Example: Alexander 2nd Earl Of Philorth /Fraser/
+      Example: Alexander 2nd Earl Of Philorth
+      Example: Alexander 2nd Earl Of Philorth /Fraser/
+  - 4th Lord
+      Example: William /Sinclair. 4th Lord Sinclair/
+      Example: Sinclair. 4th Lord Sinclair
+  - 5TH DUKE
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK /MEROVINGIAN/
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK
+  - 5th Earl
+      Example: William Planagenet, 5th Earl Surrey /DeWarenne/
+      Example: William Planagenet, 5th Earl Surrey
+      Example: Archibald Douglas 5th Earl of Douglas Lord of Galloway 5th Earl of Douglas Lord of Galloway //
+  - 5th LORD
+      Example: Robert 5th LORD de Adlington SHERIFF de Cheshire //
+      Example: Robert 5th LORD de Adlington SHERIFF de Cheshire
+  - 9th Earl
+      Example: David (9th Earl of Crawford) /Lindsay/
+      Example: David (9th Earl of Crawford)
+      Example: William /De Beauchamp/ 9th Earl Of Warwick
+  - Baron
+      Example: Jeanne /Baron/
+      Example: Jeanne /Baron/
+      Example: Baron
+  - Baroness
+      Example: Lady Katherine Baroness Hungerford /Peverell/
+      Example: Lady Katherine Baroness Hungerford
+      Example: Ramfray /De Rumilly, Countess of Rumigny, Baroness Rumigny/
+  - Countess
+      Example: Aline Countess Norfolk /Bassett/
+      Example: Aline Countess Norfolk
+      Example: Theodore Countess of /Ardennes/
+  - DAME
+      Example: DAME Berthe /Berthe,DAME/
+      Example: DAME Berthe /Berthe,DAME/
+      Example: DAME Berthe /Berthe,DAME/
+  - DUCHESS
+      Example: Marie DUCHESS /Geneva/
+      Example: Marie DUCHESS
+  - DUKE
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK /MEROVINGIAN/
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK
+  - Dame
+      Example: Anne /Dame de La Rochepot, Damville et Châteauneuf/
+      Example: Anne /Dame de La Rochepot, Damville et Châteauneuf/
+      Example: Dame de La Rochepot, Damville et Châteauneuf
+  - Duchess
+      Example: Irmgard, Duchess of Massgau /de Lorraine/
+      Example: Irmgard, Duchess of Massgau
+      Example: Rotrude De Trêves Duchess /De Thurgovie/
+  - Duke
+      Example: Charles of Blois Duke of /Brittany/
+      Example: Charles of Blois Duke of
+      Example: Duke De Meroving /Ansegisel/
+  - EARL
+      Example: Henry /rd EARL of NORTHUMBERLAND/
+      Example: rd EARL of NORTHUMBERLAND
+      Example: Richard De CLARE  EARL OF /Gloucester/
+  - Earl
+      Example: Henry, Earl Lancaster /Plantagenet/
+      Example: Henry, Earl Lancaster
+      Example: Edmund, Earl Arundel /Fitzalan/
+  - Heir
+      Example: Laurette /De Braose Heir of Tawstock/
+      Example: De Braose Heir of Tawstock
+  - Heiress
+      Example: Ludmilla Heiress of Psov //
+      Example: Ludmilla Heiress of Psov
+      Example: Heiress of Mottram /St Andrew/
+  - High King
+      Example: Muiredeach Tereach /High King Of Ireland/
+      Example: High King Of Ireland
+      Example: Conall Cáel, High King of /Ireland/
+  - KING
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK /MEROVINGIAN/
+      Example: Marcomir I Merovech 5TH DUKE COLOGNE KING SICAMBRIAN ASTERN FRANK
+      Example: Harald II KING Of Denmark /Gormsson/
+  - KING OF CIANNACHTA
+      Example: Cronain KING OF CIANNACHTA /IRELAND MUMHAN Mac Tigernach/
+      Example: Cronain KING OF CIANNACHTA
+  - KING Of Denmark
+      Example: Harald II KING Of Denmark /Gormsson/
+      Example: Harald II KING Of Denmark
+  - KIng
+      Example: Vatnarr /KIng of Norway of Rogaland/
+      Example: KIng of Norway of Rogaland
+  - KIng of Norway
+      Example: Vatnarr /KIng of Norway of Rogaland/
+      Example: KIng of Norway of Rogaland
+  - King
+      Example: Sveithi And 'The Sea King' /di Svidrassonn/
+      Example: Sveithi And 'The Sea King'
+      Example: Coilus, 'Old King Coel' /ap Tegfan/
+  - King OF THE
+      Example: Ainftech Garnard King OF THE PICTS /SCOTLAND Mac domnall/
+      Example: Ainftech Garnard King OF THE PICTS
+  - King Of Airthirlifi
+      Example: Mael Morda /King Of Airthirlifi/
+      Example: King Of Airthirlifi
+  - King Of Asturias
+      Example: Alfonso II " el /Casto King Of Asturias/
+      Example: Casto King Of Asturias
+  - King Of Austrasia
+      Example: Sigebert /King Of Austrasia III/
+      Example: King Of Austrasia III
+  - King Of Braganza
+      Example: Mileag Espaine /mac Bille/ , King Of Braganza
+  - King Of Dalriada
+      Example: Of Eochaid /King Of Dalriada/
+      Example: King Of Dalriada
+  - King Of Dyfed
+      Example: Rhodri Ap Hyfaidd /King Of Dyfed/
+      Example: King Of Dyfed
+  - King Of Gwent
+      Example: Tewdrig Theodoric /King Of Gwent/
+      Example: King Of Gwent
+  - King Of Hedmark
+      Example: Throndsson King Of Hedmark Eystein //
+      Example: Throndsson King Of Hedmark Eystein
+  - King Of Ireland
+      Example: Muireadhach /King Of Ireland/
+      Example: King Of Ireland
+  - King Of Leinster
+      Example: Over- King Of Leinster /Muiredach/
+      Example: Over- King Of Leinster
+  - King Of Lombardy
+      Example: /Bernhard King Of Lombardy/
+      Example: Bernhard King Of Lombardy
+  - King Of Man
+      Example: Ranald King Of Man Amp /The Isles/
+      Example: Ranald King Of Man Amp
+  - King Of Nuestria
+      Example: Thiedoric /III King Of Nuestria/
+      Example: III King Of Nuestria
+  - King Of Ossary
+      Example: Anmchaid /mac Con Cherca King Of Ossary/
+      Example: mac Con Cherca King Of Ossary
+  - King Of The
+      Example: Of Walia /King Of The Visigoths/
+      Example: King Of The Visigoths
+      Example: Drust King Of The Picts //
+  - King Of Thuringia
+      Example: Frotmund /King Of Thuringia/
+      Example: King Of Thuringia
+  - King Of Trojans
+      Example: Frithuwald Borr Fredalaf Fredalat The Asgard King of Saxony Turkey and Sweden King Of Trojans Ben /Freothalaf/
+      Example: Frithuwald Borr Fredalaf Fredalat The Asgard King of Saxony Turkey and Sweden King Of Trojans Ben
+  - King of Ailech
+      Example: Mael Fithrich Macaedo Uaridnaig King of Ailech /Neill/
+      Example: Mael Fithrich Macaedo Uaridnaig King of Ailech
+  - King of Alba
+      Example: Kenneth I MacAlpin /King of Alba/
+      Example: King of Alba
+      Example: Loach a /Scotland/ , King of Alba
+  - King of Alvheim
+      Example: Alfarin /av Alvheim/ , King of Alvheim
+  - King of Amorica
+      Example: King of Amorica /ap Gerint/
+      Example: King of Amorica
+      Example: King of Amorica /ap Gerint/
+  - King of Aquitaine
+      Example: Charibert II 'King of Aquitaine' /de Aquitaine/
+      Example: Charibert II 'King of Aquitaine'
+  - King of Argyll
+      Example: /Dungal King of Argyll/
+      Example: Dungal King of Argyll
+  - King of Armenia
+      Example: Khosrov II-III King of Armenia //
+      Example: Khosrov II-III King of Armenia
+      Example: Trdat III-IV King of Armenia //
+  - King of Asgard
+      Example: Woden son /av Frithuwald/ , King of Asgard
+  - King of Bavaria
+      Example: Theodo Theudebert Agilofing Duke King of Bavaria von /Bayern/
+      Example: Theodo Theudebert Agilofing Duke King of Bavaria von
+      Example: Lothar I /De Germanie/ King of Bavaria
+  - King of Bernicia
+      Example: Egfrith King of Bernicia and /Northumbria/
+      Example: Egfrith King of Bernicia and
+  - King of Birka
+      Example: Emund /Eriksson/ King of Birka
+  - King of Bretagen
+      Example: King of Bretagen /Salomon/
+      Example: King of Bretagen
+  - King of Burgundy
+      Example: Chilperic /von Bourgogne/ , King of Burgundy
+      Example: Boso /de Bourgogne/ , King of Burgundy
+      Example: Gundicar /de Bourgogne/ , 1st King of Burgundy
+  - King of Camelodunum
+      Example: Coel Godhebog /ap Cyllin/ , King of Camelodunum or Colchester
+  - King of Ciannachta
+      Example: Cenn Faelad CENNFAELAD King of Ciannachta /IRELAND Mac GERTHIDE/
+      Example: Cenn Faelad CENNFAELAD King of Ciannachta
+      Example: Gerthide King of Ciannachta /IRELAND Mac Cronain/
+  - King of Connacht
+      Example: Muireadach Muredach Tireach /King of Connacht/
+      Example: King of Connacht
+      Example: Fiacha Scrabbteibe /King of Connacht/
+  - King of Cumbria
+      Example: Maldred /a Dunbar/ , King of Cumbria
+  - King of Dal
+      Example: Donart /mac Fergus/ , King of Dal Riada
+      Example: Fergus Mor /mac Muredach/ , King of Dal Riada
+      Example: Eochal Lyus /mac Edhan/ I, King of Dal Riada
+  - King of Dardania
+      Example: Dardanus /son of Zerah/ , King of Dardania
+      Example: Erichthonius /son of Dardanus/ , King of Dardania
+  - King of Denmark
+      Example: Ursus /Herbastusson King of Denmark/
+      Example: Herbastusson King of Denmark
+      Example: Svend /Haraldssonn/ I, King of Denmark, Norway and England
+  - King of Dumnonia
+      Example: Cadfan /ap Conan/ , King of Dumnonia
+      Example: Caractacus Caradoc /ap Cunabelin/ , King of Dumnonia
+      Example: Donaut /ap Caradog/ , King of Dumnonia
+  - King of Dál
+      Example: Domnall Brecc King of Dál Riata //
+      Example: Domnall Brecc King of Dál Riata
+      Example: Cennétig of Thomond King of Dál gCais /MacLorcáin/
+  - King of East
+      Example: Tytila King of East Anglia //
+      Example: Tytila King of East Anglia
+      Example: /Sledda King of East Saxon/
+  - King of England
+      Example: Edward I 'Longshanks' /Plantagenet, King of England/
+      Example: Plantagenet, King of England
+      Example: Aethelwulf King of England //
+  - King of Essex
+      Example: Offa Sigheresson /King of Essex and Mercia/
+      Example: King of Essex and Mercia
+  - King of Ethiopia
+      Example: Memnon /of Troy/ , King of Ethiopia
+  - King of Eways
+      Example: Coellyn /ap Caradog/ , King of Eways
+  - King of Ewyas
+      Example: Llyr Lleddiarth /ap Caswallon/ , King of Ewyas
+      Example: Bran Fendigaid /ap Llyr/ , King of Ewyas, High King of Prydein or Britain
+  - King of Finland
+      Example: Sgaile /Balbh/ , King of Finland
+  - King of France
+      Example: Hugh ( King of France) /Capet/
+      Example: Hugh ( King of France)
+      Example: Robert /de France/ I, King of France, Count of Paris
+  - King of Gall
+      Example: Marius /King of Gall Goadhal/
+      Example: King of Gall Goadhal
+  - King of Gardarige
+      Example: Radbart /od Gardarige/ , King of Gardarige
+  - King of Germany
+      Example: READ-ONLY Otto /King of Germany/
+      Example: King of Germany
+  - King of Gwynedd
+      Example: Hywel /King of Gwynedd/
+      Example: King of Gwynedd
+      Example: Edwin /joint King of Gwynedd/
+  - King of Hedmark
+      Example: Thrond /King of Hedmark/
+      Example: King of Hedmark
+      Example: eystein /Throndssonn/ , Viking King of Hedmark
+  - King of Hungary
+      Example: Bela I King of Hungary //
+      Example: Bela I King of Hungary
+      Example: Geza King of Hungary /of Hungary/
+  - King of Ilium
+      Example: Ilus /son of Tros/ , King of Ilium or Troy
+  - King of Ireland
+      Example: daughter of Congal King of Ireland //
+      Example: daughter of Congal King of Ireland
+      Example: Cearbhall /mac Dunghal/ , King of Ireland
+  - King of Italy
+      Example: Ludwig II King of Italy //
+      Example: Ludwig II King of Italy
+      Example: Berenger /d'Italia/ II, King of Italy
+  - King of Jutland
+      Example: Olaf /Gudrodssonn/ , King of Jutland and Vestfold
+  - King of Kent
+      Example: Eadbald /King of Kent/
+      Example: King of Kent
+      Example: Eahlmund /King of Kent/
+  - King of Kvenland
+      Example: FrostiJøkull King of Kvenland /Karasson/
+      Example: FrostiJøkull King of Kvenland
+  - King of LOMBARD
+      Example: King of LOMBARD /Italy/
+      Example: King of LOMBARD
+  - King of Le
+      Example: Clothaire I King of Le Vieux Soissons //
+      Example: Clothaire I King of Le Vieux Soissons
+  - King of Leinster
+      Example: wife of Mureadac King of Leinster //
+      Example: wife of Mureadac King of Leinster
+      Example: Conal /King of Leinster/
+  - King of Leon
+      Example: Alfonso IX /Fernandez King of Leon And Castile/
+      Example: Fernandez King of Leon And Castile
+  - King of Lorraine
+      Example: Lothar II King of Lorraine //
+      Example: Lothar II King of Lorraine
+      Example: Lothaire /de Lorraine/ II, King of Lorraine
+  - King of Magonsaete
+      Example: Merewalh /King of Magonsaete/
+      Example: King of Magonsaete
+  - King of Mercia
+      Example: Cenred /King of Mercia/
+      Example: King of Mercia
+      Example: Peada /King of Mercia/
+  - King of Meroving
+      Example: Alegbert "The Lame" /King of Meroving/
+      Example: King of Meroving
+  - King of Metz
+      Example: Theuderic King of Metz Rheims /Merovingian/
+      Example: Theuderic King of Metz Rheims
+      Example: Sigebert /von Metz/ III, King of Metz
+  - King of Munster
+      Example: Lughaidh /King of Munster/
+      Example: King of Munster
+      Example: Eremon /mac Mileag/ , Eochaidh I 2nd King of Ireland at Tara, King of Munster
+  - King of Neustria
+      Example: Dagobert I /King of Neustria & Burgundy/
+      Example: King of Neustria & Burgundy
+      Example: Clotaire /von die Franks/ II, King of Neustria and the Franks
+  - King of Northern
+      Example: Coel Hen /ap Tegfan/ of Britain , King of Northern Britain, Dux Brittanorum, Governor of Ebrauc
+  - King of Northumberland
+      Example: Nobrii a /Northumberland/ , King of Northumberland
+  - King of Northumbria
+      Example: Norbril King of Northumbria //
+      Example: Norbril King of Northumbria
+      Example: Norbril // King of Northumbria
+  - King of Norway
+      Example: Mieszko Swietoslava I /Piastsson King of Norway Sweden and Poland/
+      Example: Piastsson King of Norway Sweden and Poland
+  - King of Paris
+      Example: Ingo /of Paris/ , King of Paris
+      Example: Charlbert /von die Franks/ I, King of Paris
+  - King of Parthia
+      Example: Valagash V Great King of Parthia //
+      Example: Valagash V Great King of Parthia
+      Example: Valagash I Great King of Parthia //
+  - King of Poland
+      Example: Casimir I /of Poland/ King of Poland
+      Example: Boleslas III /of Poland/ King of Poland
+  - King of Powys
+      Example: Eudeyrn /ap Eifydd/ , King of Powys
+      Example: Eifydd /ap Eudos/ , King of Powys
+      Example: Euddigan /ap Eudeyrn/ , King of Powys
+  - King of Raumerike
+      Example: King of Raumerike /Hálfdan Hvítbeinn Óláfsson/
+      Example: King of Raumerike
+  - King of Saxons
+      Example: Ethelrad /King of Saxons/
+      Example: King of Saxons
+  - King of Saxony
+      Example: King of Saxony Warnechin Sachsen /Sachse/
+      Example: King of Saxony Warnechin Sachsen
+      Example: Frithuwald Borr Fredalaf Fredalat The Asgard King of Saxony Turkey and Sweden King Of Trojans Ben /Freothalaf/
+  - King of Scotia
+      Example: Alba /a Scotland/ , King of Scotia or Scotland
+  - King of Scotland
+      Example: Duncan I /King of Scotland/
+      Example: King of Scotland
+      Example: Donald /King of Scotland/
+  - King of Scots
+      Example: Domnaill King of Scots //
+      Example: Domnaill King of Scots
+  - King of Siluria
+      Example: Cyllin /ap Caradog/ , King of Siluria
+      Example: Llewfer Mawr /ap Coel/ , King of Siluria
+  - King of Soissons
+      Example: Chilperic I /King of Soissons/
+      Example: King of Soissons
+  - King of South
+      Example: Gudrod The Hunter Viking King of South east Norway //
+      Example: Gudrod The Hunter Viking King of South east Norway
+  - King of Sweden
+      Example: Ivar (King of Sweden) /Halfdansson/
+      Example: Ivar (King of Sweden)
+      Example: Olof Mitkg /Bjornsson/ , King of Sweden
+  - King of Thrace
+      Example: Tror /of Thrace/ , King of Thrace
+  - King of Thuringia
+      Example: Bethar /von Thuringia/ , Half King of Thuringia
+  - King of Troad
+      Example: Tros Acadia /son of Erichthonius/ , King of Troad
+  - King of Trojans
+      Example: FREOTHALAF (Frealaf, Friallaf, Froethelaf) /King of Trojans/
+      Example: King of Trojans
+  - King of Trondheim
+      Example: Wrymund /King of Trondheim/
+      Example: King of Trondheim
+  - King of Troy
+      Example: Priam /son of Laomedon/ , King of Troy
+  - King of Uppsala
+      Example: Halfdan White Leg King of Uppsala /de Vestfold/
+      Example: Halfdan White Leg King of Uppsala
+      Example: Ingjald /Braut-Onundson/ King of Uppsala
+  - King of Vannetais
+      Example: Conan Meriadoc /ap Gerint/ , King of Vannetais or Brittany and Dumnonia
+  - King of Vermland
+      Example: Olaf /Ingjaldsson/ King of Vermland in Sweden
+  - King of Vestfold
+      Example: Eystein I 'the Fart' King of Vestfold  Roumarike //
+      Example: Eystein I 'the Fart' King of Vestfold  Roumarike
+      Example: Halfdan I King of Vestfold //
+  - King of Wessex
+      Example: Ealhmund King of Wessex, Eng. //
+      Example: Ealhmund King of Wessex, Eng.
+      Example: Eoppa Ingildsson /King of Wessex/
+  - King of West
+      Example: Leovigildo /King of West Goths/
+      Example: King of West Goths
+  - King of the
+      Example: King of the Catuvellauni /ap Cunabelin/
+      Example: King of the Catuvellauni
+      Example: Cunobelinus, Cymbeline, King of the Cattuvellauni /ap Cassivelaunus/
+  - Knight
+      Example: Emma Carter /Knight/
+      Example: Knight
+      Example: William Knight /Calverly/
+  - LADY
+      Example: Joan LADY /COOK Cooke/
+      Example: Joan LADY
+  - LORD
+      Example: Robert 5th LORD de Adlington SHERIFF de Cheshire //
+      Example: Robert 5th LORD de Adlington SHERIFF de Cheshire
+  - Lady
+      Example: Lady /Godiva/
+      Example: Lady
+      Example: Lady Katherine Baroness Hungerford /Peverell/
+  - Lord
+      Example: Marguerite /Lord/
+      Example: Lord
+      Example: Alexandre /Lord/
+  - Marchioness
+      Example: Anne Marchioness Pembroke /Boleyn/
+      Example: Anne Marchioness Pembroke
+      Example: Anne Marchioness Pembroke /England/
+  - Prince
+      Example: Lucy Prince /Bradford/
+      Example: Lucy Prince /Bradford/
+      Example: Lucy Prince
+  - Princess
+      Example: Beatrice Sancha Princess /Castile/
+      Example: Beatrice Sancha Princess
+      Example: Princess Emma Of /France/
+  - QUEEN
+      Example: Giselle QUEEN /DeRazes/
+      Example: Giselle QUEEN
+  - Queen
+      Example: Queen Eldgyth Of /England/
+      Example: Queen Eldgyth Of
+      Example: Redburh of Carolingians /Queen of Wessex/
+  - Queen Of Bretagne
+      Example: Judith /Queen Of Bretagne/
+      Example: Queen Of Bretagne
+  - Queen Of Ireland
+      Example: /Queen Of Ireland/
+      Example: Queen Of Ireland
+      Example: Mora /Queen Of Ireland/
+  - Queen of Aragon
+      Example: Felicitas /Queen of Aragon/
+      Example: Queen of Aragon
+  - Queen of Castile
+      Example: Richeza of Poland /Queen of Castile and Leon/
+      Example: Queen of Castile and Leon
+  - Queen of Denmark
+      Example: Hiordis Beron /Ursusdotter Queen of Denmark/
+      Example: Ursusdotter Queen of Denmark
+      Example: Urses Beron /Queen of Denmark/
+  - Queen of East
+      Example: Sæwara Hereswith /Queen of East Anglia/
+      Example: Queen of East Anglia
+      Example: Æthelgede /Queen of East Saxon/
+  - Queen of England
+      Example: Matilda /de Flandres/ , Countess of Flanders, Queen of England
+      Example: Judith /de France/ , Queen of England, Princess of France
+      Example: Elfleda /of Bernicie/ , Queen of England
+  - Queen of Formaeil
+      Example: Queen of Formaeil /O'Cathain/
+      Example: Queen of Formaeil
+  - Queen of France
+      Example: Beatrice /de Vermandois/ , Queen of France
+      Example: Adele /de France/ , Queen of France
+      Example: Anna Agnesa /Yaroslavna/ , Grand Duchess of Kiev, Queen of France
+  - Queen of Germany
+      Example: Mathilde /von Ringelheim/ Queen of Germany
+  - Queen of Gwynedd
+      Example: Angharad Goldenhaired Queen of Gwynedd verch /Owain/
+      Example: Angharad Goldenhaired Queen of Gwynedd verch
+  - Queen of Iceni
+      Example: Boadicea verch /Mandubratius/ , Queen of Iceni
+  - Queen of Ireland
+      Example: (Fru Cearbhall mac Dunghal) // , Queen of Ireland
+  - Queen of Italy
+      Example: Cunigunde /de Gellone/ , Queen of Italy
+      Example: Bertha /de Toulouse/ , Queen of Italy
+  - Queen of Kent
+      Example: Berthe Aldeberge Blithildis /Queen of Kent/
+      Example: Queen of Kent
+      Example: Sexburga of East Anglia /Queen of Kent/
+  - Queen of Lombardy
+      Example: Ascyla Queen of Lombardy /De Ascyllius/
+      Example: Ascyla Queen of Lombardy
+  - Queen of Lorraine
+      Example: Waldrade /de Lorraine/ , Queen of Lorraine
+  - Queen of Mercia
+      Example: Æthelswith /Queen of Mercia/
+      Example: Queen of Mercia
+      Example: Osthryth /Queen of Mercia/
+  - Queen of Metz
+      Example: Imnichilde /von Metz/ , Queen of Metz
+  - Queen of Norway
+      Example: Gunhild /Gormsdatter Queen of Norway/
+      Example: Gormsdatter Queen of Norway
+      Example: Vatnarr /Queen of Norway/
+  - Queen of Paris
+      Example: Ingoberge /de Paris/ , Queen of Paris
+  - Queen of Powys
+      Example: Angharad ap /Owen Queen of Powys/
+      Example: Owen Queen of Powys
+  - Queen of Scotland
+      Example: Unknown Queen of Scotland /Macdonald/
+      Example: Unknown Queen of Scotland
+      Example: Aelgifu /Sigurdsdatter/ , Queen of Scotland
+  - Queen of Scots
+      Example: Joan /Beaufort Queen of Scots/
+      Example: Beaufort Queen of Scots
+  - Queen of Soissons
+      Example: Hadeltrude /von Soissons/ , Queen of Soissons
+  - Queen of Sweden
+      Example: Swietoslava Sygryda /od Poland/ , Princess of Poland, Queen of Sweden, Norway, and Denmark
+      Example: (Fru Bjorn Eriksson) // , Queen of Sweden
+      Example: (Fru Erik Edmundsson) // , Queen of Sweden
+  - Queen of Thuringia
+      Example: Basina /Queen of Thuringia/
+      Example: Queen of Thuringia
+  - Queen of Thuringii
+      Example: Amfleda the Younger Queen of Thuringii /Vandals/
+      Example: Amfleda the Younger Queen of Thuringii
+  - Queen of Trojans
+      Example: FREOTHALAF /Queen of Trojans/
+      Example: Queen of Trojans
+  - Queen of Troy
+      Example: Troan daughter /of Priam/ , Queen of Troy
+      Example: Hecuba /of Troy/ , Queen of Troy
+  - Queen of Wessex
+      Example: Redburh of Carolingians /Queen of Wessex/
+      Example: Queen of Wessex
+      Example: Redburh of Carolingians /Queen of Wessex/
+  - Queen of West
+      Example: Elas Queen of West /Saxons/
+      Example: Elas Queen of West
+  - Queen of the
+      Example: Amalaberga, Queen of the Thuringii //
+      Example: Amalaberga, Queen of the Thuringii
+      Example: Basina /Queen of the Thuringians/
+  - SIR
+      Example: Neil Nigel MacCailean More th Laird SIR /Campbell/
+      Example: Neil Nigel MacCailean More th Laird SIR
+  - Sir
+      Example: Sir John /Randolph/
+      Example: Sir John
+      Example: Sir Thomas /Lewkenor/
+  - Viscount
+      Example: Grelley /Viscount of Avranches Grelley Hiemois/
+      Example: Viscount of Avranches Grelley Hiemois
+      Example: Halfrid Viscount /DeChastelleraut/
+  - Viscountess
+      Example: Litiuse (Viscountess of Troyes) /de Troyes/
+      Example: Litiuse (Viscountess of Troyes)
+      Example: Mary Viscountess /Blaton/
+  - baron
+      Example: Arnould VI /de Gavre/ baron d'Escornaix
+      Example: Arnould VI /de Gavre/ baron d'Escornaix
+  - dame
+      Example: Catherine dame de Nezement //
+      Example: Catherine dame de Nezement //
+      Example: Catherine dame de Nezement
+  - duchess
+      Example: Herfast Crepon Brother /de Gunnora duchess of Normandie/
+      Example: de Gunnora duchess of Normandie
+  - duke
+      Example: Genebald II, duke of the East Franks //
+      Example: Genebald II, duke of the East Franks
+      Example: Dagobert IV, duke of the East Franks //
+  - earl
+      Example: Brusi /Sigurdsson/ earl of Caithness
+  - king
+      Example: Basinus II, king of the Thüringians //
+      Example: Basinus II, king of the Thüringians
+      Example: Chlodégar, king of the Salian Francs at Cologne //
+  - king of Denmark
+      Example: Horda-Knut /Sigurdsson/ king of Denmark
+      Example: Gorm /Del Gammel/ king of Denmark
+  - king of Herulli
+      Example: Anthyrius 1st /13th king of Herulli/
+      Example: 13th king of Herulli
+  - king of Ireland
+      Example: Carrol king of Ireland //
+      Example: Carrol king of Ireland
+      Example: Fergal /Mac Maele Duin king of Ireland/
+  - king of Italy
+      Example: Adalbert // Markgraf of Ivrea, co-king of Italy
+  - king of Kent
+      Example: Eormenric /king of Kent/
+      Example: king of Kent
+      Example: Ochta, king of Kent //
+  - king of Uppsala
+      Example: Ivar /Halfdansson/ king of Uppsala & Lethra
+  - king of Wessex
+      Example: Athelred I king of Wessex //
+      Example: Athelred I king of Wessex
+      Example: Athelred I // king of Wessex
+  - king of the
+      Example: Basinus II, king of the Thüringians //
+      Example: Basinus II, king of the Thüringians
+      Example: Chlodégar, king of the Salian Francs at Cologne //
+  - knight
+      Example: http://www.knight.org/advent/cathen/14042a.htm
+  - lord
+      Example: Alan /de Dunstanville/ lord of Burpham
+  - prince
+      Example: crioda prince of wessex //
+      Example: crioda prince of wessex //
+      Example: crioda prince of wessex
+  - viscount
+      Example: Boson /viscount of Châtellerault/
+      Example: viscount of Châtellerault
+
+French:
+  - Baron
+      Example: Jeanne /Baron/
+      Example: Jeanne /Baron/
+      Example: Baron
+  - COMTE
+      Example: Etienne /de BOURGOGNE COMTE/
+      Example: de BOURGOGNE COMTE
+  - Chevalier
+      Example: Marie /Chevalier/
+      Example: Chevalier
+      Example: Jacquette /Chevalier/
+  - Comte
+      Example: Pierre III /Comte d'Orgemont de Chantilly/
+      Example: Comte d'Orgemont de Chantilly
+      Example: Adelramn III /Comte du Vexin/
+  - Comte De Bertagne
+      Example: Frodaldus Comte De Bertagne /Bertagne/
+      Example: Frodaldus Comte De Bertagne
+  - Comte De Brienne
+      Example: Érard /de Brienne, Comte De Brienne/
+      Example: de Brienne, Comte De Brienne
+  - Comte De Durbuy
+      Example: Heinrich I Comte De Durbuy /Namur/
+      Example: Heinrich I Comte De Durbuy
+  - Comte De Montbeliard
+      Example: Dietrich III Comte De Montbeliard de /Pfirt/
+      Example: Dietrich III Comte De Montbeliard de
+  - Comte De Vendome
+      Example: Bovin Comte De Vendome /Nevers/
+      Example: Bovin Comte De Vendome
+  - Comte d'Amiens
+      Example: Richard Comte d'Amiens //
+      Example: Richard Comte d'Amiens
+  - Comte d'Anjou
+      Example: Foulques I Comte d'Anjou //
+      Example: Foulques I Comte d'Anjou
+      Example: Ingelger Comte d'Anjou //
+  - Comte d'Arles
+      Example: Guillaume Comte d'Arles //
+      Example: Guillaume Comte d'Arles
+      Example: Theotbald Comte d'Arles //
+  - Comte d'Aulun
+      Example: Bernhard Comte d'Aulun //
+      Example: Bernhard Comte d'Aulun
+  - Comte d'Autun
+      Example: Teiric /d'Autun Comte d'Autun/
+      Example: d'Autun Comte d'Autun
+  - Comte d'Auvergne
+      Example: Raimond (Pons I)(Duke of Aquitaine; Comte d'Auvergne; Margrave of Gothia) /de Toulouse/
+      Example: Raimond (Pons I)(Duke of Aquitaine; Comte d'Auvergne; Margrave of Gothia)
+      Example: Robert I Comte d'Auvergne //
+  - Comte d'Avignon
+      Example: Boso II Comte d'Avignon  Arles //
+      Example: Boso II Comte d'Avignon  Arles
+  - Comte d'Comborn
+      Example: Hugues de Quercy Comte d'Comborn /Toulouse/
+      Example: Hugues de Quercy Comte d'Comborn
+  - Comte d'Eu
+      Example: Robert /fitz Guillaume, Comte d'Eu/
+      Example: fitz Guillaume, Comte d'Eu
+  - Comte d'Evreux
+      Example: LOUIS Comte d'Evreux /France/
+      Example: LOUIS Comte d'Evreux
+  - Comte d'Heristal
+      Example: Waleran I /de Vexin, Comte d'Heristal/
+      Example: de Vexin, Comte d'Heristal
+  - Comte d'Orgemont
+      Example: Pierre III /Comte d'Orgemont de Chantilly/
+      Example: Comte d'Orgemont de Chantilly
+  - Comte d'Orléans
+      Example: Hadrian Comte d'Orléans //
+      Example: Hadrian Comte d'Orléans
+  - Comte d'Roussillon
+      Example: Miron I Comte d'Roussillon Comte De /Carcassonne/
+      Example: Miron I Comte d'Roussillon Comte De
+  - Comte de Bar
+      Example: Nocher I Comte de Bar-sur-Aube //
+      Example: Nocher I Comte de Bar-sur-Aube
+      Example: Nocher II Comte de Bar-sur-Aube et de Soisso //
+  - Comte de Barcelona
+      Example: Ramon /Berenguer II Cap Dstopes Comte de Barcelona/
+      Example: Berenguer II Cap Dstopes Comte de Barcelona
+      Example: Ramon /Berenguer el Vell Comte de Barcelona/
+  - Comte de Bassigny
+      Example: Hugues I /Comte de Bassigny/
+      Example: Comte de Bassigny
+      Example: Hugues /Comte de Bassigny/
+  - Comte de Bayeux
+      Example: Berengar /di Italia/ Comte de Bayeux
+  - Comte de Blois
+      Example: Thibaut IV-II Comte de Blois  Chartres //
+      Example: Thibaut IV-II Comte de Blois  Chartres
+      Example: Etienne II Comte de Blois  Chartres //
+  - Comte de Bourgogne
+      Example: Guillaume I Comte de Bourgogne //
+      Example: Guillaume I Comte de Bourgogne
+      Example: Renaud I Comte de Bourgogne //
+  - Comte de Brienne
+      Example: Comte de Brienne /Engelbert I/
+      Example: Comte de Brienne
+      Example: Comte de Brienne /Engelbert II/
+  - Comte de Carcassone
+      Example: Bernard Roger I Comte de Carcassone /deBigorre Foix/
+      Example: Bernard Roger I Comte de Carcassone
+  - Comte de Cerdagne
+      Example: Miron /Comte de Cerdagne et d' Urgel/
+      Example: Comte de Cerdagne et d' Urgel
+  - Comte de Dijon
+      Example: Eliran Eude /Comte de Dijon/
+      Example: Comte de Dijon
+  - Comte de Ferrette
+      Example: Frédéric II. /Comte de Ferrette/
+      Example: Comte de Ferrette
+  - Comte de Flandres
+      Example: Baudouin IV Comte de Flandres //
+      Example: Baudouin IV Comte de Flandres
+      Example: Baudouin III Comte de Flandres //
+  - Comte de Gatinais
+      Example: Geoffroy I Comte de Gatinais //
+      Example: Geoffroy I Comte de Gatinais
+  - Comte de Genève
+      Example: Gerold I Comte de Genève //
+      Example: Gerold I Comte de Genève
+  - Comte de Ghenes
+      Example: Auralius Comte de Ghenes /Vere/
+      Example: Auralius Comte de Ghenes
+  - Comte de Longwy
+      Example: Adalbert Comte de Longwy //
+      Example: Adalbert Comte de Longwy
+  - Comte de Louvain
+      Example: Lambert I Comte de Louvain //
+      Example: Lambert I Comte de Louvain
+      Example: Lambert II Comte de Louvain //
+  - Comte de Macon
+      Example: Aubry I Comte de Macon Sire de Bracon //
+      Example: Aubry I Comte de Macon Sire de Bracon
+  - Comte de Maine
+      Example: Herbert I Eveille-Chien Comte de Maine //
+      Example: Herbert I Eveille-Chien Comte de Maine
+      Example: Hugues III Comte de Maine //
+  - Comte de Metz
+      Example: Bouvin Comte de Metz //
+      Example: Bouvin Comte de Metz
+  - Comte de Montpensier
+      Example: Gilbert Comte de Montpensier de /Bourbon/
+      Example: Gilbert Comte de Montpensier de
+  - Comte de Mouson
+      Example: Thierry /Thibaud II Comte de Mouson/
+      Example: Thibaud II Comte de Mouson
+      Example: Thierry\Thibaud II // Comte de Mouson
+  - Comte de Paris
+      Example: Begon Comte de Paris //
+      Example: Begon Comte de Paris
+      Example: Gerard I Comte de Paris //
+  - Comte de Poitou
+      Example: Ebalus Mancer Comte de Poitou //
+      Example: Ebalus Mancer Comte de Poitou
+  - Comte de Ponthieu
+      Example: Jean Jean I Comte de Ponthieu /Montgommery/
+      Example: Jean Jean I Comte de Ponthieu
+  - Comte de Rasaz
+      Example: Gisclafred Comte de Rasaz de /Carcassonne/
+      Example: Gisclafred Comte de Rasaz de
+  - Comte de Rennes
+      Example: Judicael /Berengar/ Comte de Rennes
+  - Comte de Savoie
+      Example: Umberto II Comte de Savoie //
+      Example: Umberto II Comte de Savoie
+      Example: Amadeo II Comte de Savoie //
+  - Comte de Soissons
+      Example: Guy Comte de Soissons //
+      Example: Guy Comte de Soissons
+  - Comte de Toulouse
+      Example: Guilhem Comte de Toulouse //
+      Example: Guilhem Comte de Toulouse
+  - Comte de Verman
+      Example: Raoul I /de Cambrai Comte de Verman-Dois/
+      Example: de Cambrai Comte de Verman-Dois
+  - Comte de Vermandois
+      Example: Adalbert 'The Pious' Comte de Vermandois //
+      Example: Adalbert 'The Pious' Comte de Vermandois
+      Example: Heribert II Comte de Vermandois //
+  - Comte de Vienne
+      Example: Karl Konstentin Comte de Vienne //
+      Example: Karl Konstentin Comte de Vienne
+      Example: Boso Comte de Vienne //
+  - Comte de Woevre
+      Example: Raoul /Comte de Woevre et Bar-sur-Seine/
+      Example: Comte de Woevre et Bar-sur-Seine
+  - Comte de Woëvre
+      Example: NN Wife of /Comte de Woëvre/
+      Example: Comte de Woëvre
+  - Comte de bracelona
+      Example: Ramon Borrel I /XVI Comte de bracelona/
+      Example: XVI Comte de bracelona
+  - Comte de l
+      Example: Thakur /Comte de l'Isle/
+      Example: Comte de l'Isle
+  - Comte de la
+      Example: Hugh de Lusignan IX Comte de la /Marche/
+      Example: Hugh de Lusignan IX Comte de la
+  - Comte de vannes
+      Example: Alain /de Bretagne Duc of Bretagne Comte de vannes et Nantes/
+      Example: de Bretagne Duc of Bretagne Comte de vannes et Nantes
+  - Comtesse
+      Example: Mathilde Comtesse de /Chalon/
+      Example: Mathilde Comtesse de
+      Example: Adelaide Comtesse de Vermandois et de Valoi //
+  - DAME
+      Example: DAME Berthe /Berthe,DAME/
+      Example: DAME Berthe /Berthe,DAME/
+      Example: DAME Berthe /Berthe,DAME/
+  - DUC
+      Example: Thibault /de BAR- LE- DUC/
+      Example: de BAR- LE- DUC
+  - Dame
+      Example: Anne /Dame de La Rochepot, Damville et Châteauneuf/
+      Example: Anne /Dame de La Rochepot, Damville et Châteauneuf/
+      Example: Dame de La Rochepot, Damville et Châteauneuf
+  - Duc
+      Example: Sophia /de Bar-le-Duc/
+      Example: de Bar-le-Duc
+      Example: Boggis Duc /de Gascogne and Aquitaine/
+  - Duc D'Aquitaine
+      Example: Ranulf I /de Poitou/ Duc D'Aquitaine
+  - Duc De Normandie
+      Example: Richard I De Normandie - The Fearless, Sans Peur, Duc De Normandie //
+      Example: Richard I De Normandie - The Fearless, Sans Peur, Duc De Normandie
+  - Duc De Toulouse
+      Example: I Duc De Toulouse /Guillaume/
+      Example: I Duc De Toulouse
+  - Duc Demontfort
+      Example: Simon deMontfort /Duc Demontfort/
+      Example: Duc Demontfort
+  - Duc d'Aquitaine
+      Example: Guillaume // Duc d'Aquitaine
+  - Duc de Bourgogne
+      Example: Conrad II Duc de Bourgogne //
+      Example: Conrad II Duc de Bourgogne
+      Example: Giselbert Duc de Bourgogne //
+  - Duc de Bretagne
+      Example: Conon I 'Le Tort' Duc de Bretagne //
+      Example: Conon I 'Le Tort' Duc de Bretagne
+      Example: Gurvand Duc de Bretagne //
+  - Duc de Lorraine
+      Example: Frederic /Duc de Lorraine/
+      Example: Duc de Lorraine
+  - Ecuyer
+      Example: Jean Pierre /Ecuyer De Comeau/
+      Example: Ecuyer De Comeau
+      Example: Hubert /Ecuyer de Comeau/
+  - Marquis
+      Example: Raimund Bérenger /Marquis Of BARCELONA/
+      Example: Marquis Of BARCELONA
+      Example: Borrell /Marquis de Barcelona/
+  - Marquise
+      Example: Marquise /de Vitré/
+      Example: Marquise
+  - Prince
+      Example: Lucy Prince /Bradford/
+      Example: Lucy Prince /Bradford/
+      Example: Lucy Prince
+  - Princesse
+      Example: AGRIPPINA CARETENE , Princesse Burgonde Chrétienne, Reine /dé Bourgogne/
+      Example: AGRIPPINA CARETENE , Princesse Burgonde Chrétienne, Reine
+  - ROI
+      Example: Bendemi Des Huns /ROI DES HUNS OCCIDENTAUX EN UKRAINE/
+      Example: ROI DES HUNS OCCIDENTAUX EN UKRAINE
+      Example: DONAT DES HUNS LE BOSSU /ROI DES HUNS/
+  - Reine
+      Example: Reine /Morin/
+      Example: Reine
+      Example: Reine /Fortin/
+  - Roi
+      Example: Ragnhard I Roi /de Cambrai/
+      Example: Ragnhard I Roi
+      Example: Martisiandes Roi des Ménappes de Toxandrie //
+  - SEIGNEUR
+      Example: Andre SEIGNEUR DE /Vitre/
+      Example: Andre SEIGNEUR DE
+  - Seigneur
+      Example: Pierre /de Saint-Liebaud, Seigneur de Courcelles/
+      Example: de Saint-Liebaud, Seigneur de Courcelles
+      Example: Guy II "The Red", Seigneur de /Montlhéry/
+  - Seigneur De Castres
+      Example: Jean V Seigneur De Castres Comte /Vendome/
+      Example: Jean V Seigneur De Castres Comte
+  - Seigneur De Chantilly
+      Example: Guy De Seigneur De Chantilly  D' Ermenonville /Senlis/
+      Example: Guy De Seigneur De Chantilly  D' Ermenonville
+  - Seigneur De Cormillé
+      Example: Guy De Seigneur De Cormillé En Anjou /Sable/
+      Example: Guy De Seigneur De Cormillé En Anjou
+  - Seigneur De Lisle
+      Example: Foucher Seigneur De Lisle De La /Tour/
+      Example: Foucher Seigneur De Lisle De La
+  - Seigneur De Montfort
+      Example: Amauri /Seigneur De Montfort/
+      Example: Seigneur De Montfort
+  - Seigneur d'Amboise
+      Example: Seigneur d'Amboise et Chaumont /Hugh/
+      Example: Seigneur d'Amboise et Chaumont
+  - Seigneur d'Ivry
+      Example: Robert Seigneur d'Ivry et /Breval/
+      Example: Robert Seigneur d'Ivry et
+  - Seigneur de Beauvau
+      Example: Burnon Geoffroi "Geoffroy" II, /de Beauvau "de Beauvoir", Seigneur de Beauvau/
+      Example: de Beauvau "de Beauvoir", Seigneur de Beauvau
+  - Seigneur de Boubers
+      Example: Edmond /d'Abbeville Seigneur de Boubers/
+      Example: d'Abbeville Seigneur de Boubers
+      Example: Girard /d'Abbeville Seigneur de Boubers/
+  - Seigneur de Bourbers
+      Example: Guillaume /d'Abbeville Seigneur de Bourbers/
+      Example: d'Abbeville Seigneur de Bourbers
+  - Seigneur de Braine
+      Example: Guy Seigneur de Braine de /Baudemont/
+      Example: Guy Seigneur de Braine de
+  - Seigneur de Courcelles
+      Example: Pierre /de Saint-Liebaud, Seigneur de Courcelles/
+      Example: de Saint-Liebaud, Seigneur de Courcelles
+  - Seigneur de Loche
+      Example: Gardier Seigneur de Loche //
+      Example: Gardier Seigneur de Loche
+      Example: Gardier // Seigneur de Loche
+  - Seigneur de Loches
+      Example: Garnier /de Loches/ , Seigneur de Loches de Villentrois
+  - Seigneur de Molembaix
+      Example: Jean /De Lannoy Chevalier, Seigneur de Molembaix/
+      Example: De Lannoy Chevalier, Seigneur de Molembaix
+  - Seigneur de Montaigu
+      Example: Roger /Seigneur de Montaigu et Pierrepont/
+      Example: Seigneur de Montaigu et Pierrepont
+  - Seigneur de Montfort
+      Example: Raoul Seigneur de Montfort-Gael et de Br //
+      Example: Raoul Seigneur de Montfort-Gael et de Br
+  - Seigneur de Sceaux
+      Example: Lisiar Seigneur de Sceaux //
+      Example: Lisiar Seigneur de Sceaux
+  - Seigneur de Taillebourg
+      Example: Geoffroi (Geoffroy) /de Rançon, Seigneur de Taillebourg/
+      Example: de Rançon, Seigneur de Taillebourg
+  - Seigneur de Tosny
+      Example: Radulf II Seigneur de Tosny //
+      Example: Radulf II Seigneur de Tosny
+      Example: Roger I Hispanicus Seigneur de Tosny //
+  - Seigneur de Valmont
+      Example: Henri d'Estouteville Seigneur de Valmont et /Rames/
+      Example: Henri d'Estouteville Seigneur de Valmont et
+  - Vicomte
+      Example: Mayeul Vicomte de Narbonne //
+      Example: Mayeul Vicomte de Narbonne
+      Example: Warnarius Vicomte de Sens //
+  - Vicomtesse
+      Example: Melisende Vicomtesse Chateaudun /de Chateaudun/
+      Example: Melisende Vicomtesse Chateaudun
+  - baron
+      Example: Arnould VI /de Gavre/ baron d'Escornaix
+      Example: Arnould VI /de Gavre/ baron d'Escornaix
+  - chevalier
+      Example: p.92 titre de chevalier
+      Example: p.92 titre de chevalier
+  - comte
+      Example: Nibelung III comte //
+      Example: Nibelung III comte
+      Example: Regnier V /de Hainaut, comte d'Egisheim/
+  - comte d' Autun
+      Example: Thierry Théodoric /ben Habibai David comte d' Autun dit le Pieux/
+      Example: ben Habibai David comte d' Autun dit le Pieux
+  - comte d'Auxerre
+      Example: Konrad II comte d'Auxerre //
+      Example: Konrad II comte d'Auxerre
+      Example: Konrad II // comte d'Auxerre
+  - comte d'Egisheim
+      Example: Regnier V /de Hainaut, comte d'Egisheim/
+      Example: de Hainaut, comte d'Egisheim
+  - comte de Boulogne
+      Example: Adalolf /de Boulogne et Ternois, comte de Boulogne/
+      Example: de Boulogne et Ternois, comte de Boulogne
+  - comte de Carcassonne
+      Example: Acfred I /comte de Carcassonne/
+      Example: comte de Carcassonne
+  - comte de Laon
+      Example: Héribert comte de Laon //
+      Example: Héribert comte de Laon
+      Example: Héribert // comte de Laon
+  - comte de Lorraine
+      Example: Edzo comte de Lorraine //
+      Example: Edzo comte de Lorraine
+      Example: Edzo // comte de Lorraine
+  - comte de Peronne
+      Example: Pépin II /De Vermandois/ comte de Peronne
+  - comte de Rouergue
+      Example: Ermengaud /comte de Rouergue/
+      Example: comte de Rouergue
+  - comte de Rouerque
+      Example: Fulcoald comte de Rouerque //
+      Example: Fulcoald comte de Rouerque
+      Example: Fulcoald // comte de Rouerque
+  - comte de Soissons
+      Example: Renaud II de Soissons /comte de Soissons/
+      Example: comte de Soissons
+  - comte de Toulouse
+      Example: Raymond I comte de Toulouse //
+      Example: Raymond I comte de Toulouse
+      Example: Raymond III Pons comte de Toulouse //
+  - comte de Valois
+      Example: Raoul de Mantes /comte de Valois/
+      Example: comte de Valois
+  - comte de Vermandois
+      Example: Héribert I /De Vermandois/ comte de Vermandois et de Senlis
+  - comte de ll
+      Example: Eudes Chartres /comte de ll/
+      Example: comte de ll
+  - dame
+      Example: Catherine dame de Nezement //
+      Example: Catherine dame de Nezement //
+      Example: Catherine dame de Nezement
+  - duc
+      Example: Clemence /de Bar-le-duc/
+      Example: de Bar-le-duc
+      Example: Renaud I /de Bar-le-duc/
+  - duc de Brabant
+      Example: Henri I duc de Brabant //
+      Example: Henri I duc de Brabant
+      Example: Godefroy III duc de Brabant //
+  - duc de Bretagne
+      Example: Geoffrey duc de Bretagne //
+      Example: Geoffrey duc de Bretagne
+      Example: Conan /le Tort/ duc de Bretagne
+  - duc de France
+      Example: Hugues 'le Grand' duc de France //
+      Example: Hugues 'le Grand' duc de France
+      Example: Hugues 'le Grand' // duc de France
+  - duc de Normandie
+      Example: Richard II 'le bon' duc de Normandie //
+      Example: Richard II 'le bon' duc de Normandie
+      Example: Robert 'the devil' duc de Normandie //
+  - duc des
+      Example: Dagobert «Magnus» /duc des Francs saliens/
+      Example: duc des Francs saliens
+  - prince
+      Example: crioda prince of wessex //
+      Example: crioda prince of wessex //
+      Example: crioda prince of wessex
+  - princesse
+      Example: Anna /Yaroslavna/ princesse de Kiev
+  - reine
+      Example: Amasalonthe /reine d'reine d' Italie/
+      Example: Amasalonthe /reine d'reine d' Italie/
+      Example: reine d'reine d' Italie
+  - roi
+      Example: Chlodomir IV /roi des Francs (Personne Fictiv)/
+      Example: roi des Francs (Personne Fictiv)
+      Example: Henri I roi de France //
+  - seigneur
+      Example: Amaury I /seigneur de Montfort/
+      Example: seigneur de Montfort
+      Example: Guy I /seigneur de Montlhéry et de Bray/
+  - seigneur de Montfort
+      Example: Amaury I /seigneur de Montfort/
+      Example: seigneur de Montfort
+  - seigneur de Montlhéry
+      Example: Guy I /seigneur de Montlhéry et de Bray/
+      Example: seigneur de Montlhéry et de Bray
+  - seigneur de Villaines
+      Example: Charles /Pasquier de Franclieu/ seigneur de Villaines
+  - vicomte
+      Example: Robert II vicomte d'Auvergne //
+      Example: Robert II vicomte d'Auvergne
+      Example: Robert I vicomte d'Auvergne //
+  - écuyer
+      Example: Jean /Peschart/ écuyer
+      Example: Pierre /Pasquier de Franclieu/ écuyer
+      Example: Pierre /Pasquier de Franclieu/ écuyer
+
+German:
+  - Graf
+      Example: Rutpert IV Graf in Wormsgau //
+      Example: Rutpert IV Graf in Wormsgau
+      Example: Volmar II von /Metz Graf im Bliesgau/
+  - Graf im Bliesgau
+      Example: Volmar II von /Metz Graf im Bliesgau/
+      Example: Metz Graf im Bliesgau
+  - Graf im Chiengau
+      Example: Sieghard IV /"Sizzo Von Melk" Graf im Chiengau/
+      Example: "Sizzo Von Melk" Graf im Chiengau
+  - Graf im Isengau
+      Example: Chadalhoch /von Traungau, Graf im Isengau/
+      Example: von Traungau, Graf im Isengau
+  - Graf von Attel
+      Example: Engelbert /Hallgraf, Graf von Attel, Lindburg und Wasserburg/
+      Example: Hallgraf, Graf von Attel, Lindburg und Wasserburg
+  - Graf von Calw
+      Example: Gottfried I /Graf von Calw-Sindelfingen/
+      Example: Graf von Calw-Sindelfingen
+  - Graf von Dillingen
+      Example: Hupold /von Dillingen, Graf von Dillingen/
+      Example: von Dillingen, Graf von Dillingen
+  - Graf von Freiburg
+      Example: Egino V. /Graf von Urach, Egino I. Graf von Freiburg/
+      Example: Graf von Urach, Egino I. Graf von Freiburg
+  - Graf von Gammertingen
+      Example: Ulrich II. /Graf von Gammertingen/
+      Example: Graf von Gammertingen
+  - Graf von Grögling
+      Example: Ernst /Graf von Grögling-Ottenburg/
+      Example: Graf von Grögling-Ottenburg
+  - Graf von Henneberg
+      Example: Heinrich /Graf von Henneberg Schleusingen/
+      Example: Graf von Henneberg Schleusingen
+  - Graf von Oltingen
+      Example: Bucco /Graf von Oltingen/
+      Example: Graf von Oltingen
+  - Graf von Sachsen
+      Example: Otto I /Graf von Sachsen/
+      Example: Graf von Sachsen
+  - Graf von Urach
+      Example: Rudolf /Graf von Urach-Dettingen/
+      Example: Graf von Urach-Dettingen
+      Example: Egino V. /Graf von Urach, Egino I. Graf von Freiburg/
+  - Graf von Worms
+      Example: Adelmo /Graf von Worms/
+      Example: Graf von Worms
+  - Graf von Zollern
+      Example: Friedrich I. /Graf von Zollern/
+      Example: Graf von Zollern
+  - Graf zu Göss
+      Example: Aribo /Graf zu Göss-Schladnitz Leobental/
+      Example: Graf zu Göss-Schladnitz Leobental
+  - Gräfin
+      Example: Elisabeth /Gräfin von Henneberg Schleusingen/
+      Example: Gräfin von Henneberg Schleusingen
+      Example: /Gräfin von Braunschweig/
+  - Hallgraf
+      Example: Engelbert /Hallgraf, Graf von Attel, Lindburg und Wasserburg/
+      Example: Hallgraf, Graf von Attel, Lindburg und Wasserburg
+  - Herzog
+      Example: Hugo /Herzog von Franken/
+      Example: Herzog von Franken
+      Example: Adalrich Herzog /Elsaß/
+  - Herzog von Franken
+      Example: Hugo /Herzog von Franken/
+      Example: Herzog von Franken
+  - Herzog von Zähringen
+      Example: Berthold V. /Herzog von Zähringen/
+      Example: Herzog von Zähringen
+  - Herzogin
+      Example: /Herzogin von Ratien/
+      Example: Herzogin von Ratien
+  - König
+      Example: Alaric I, "Der Kühne", König /von Visigoths/
+      Example: Alaric I, "Der Kühne", König
+      Example: Eduard III /König von England/
+  - Landgraf
+      Example: Wilhelm III /von Hessen, Landgraf/
+      Example: von Hessen, Landgraf
+  - Markgraf
+      Example: Adalbert Markgraf of Ivrea //
+      Example: Adalbert Markgraf of Ivrea
+      Example: Berthold V Count v. Andechs  Krain Markgraf v //
+  - Pfalzgraf
+      Example: Hugobert Senechall Pfalzgraf /end/
+      Example: Hugobert Senechall Pfalzgraf
+      Example: Otto IV Pfalzgraf von Bayern //
+  - Prinz
+      Example: Europäische Stammtafeln, Band I, Frank Baron Freytag von Loringhoven,1975, Isenburg, W. K. Prinz von
+  - Ritter
+      Example: Anna Margaretha /Ritter/
+      Example: Ritter
+      Example: Eve /Ritter/
+  - graf
+      Example: graf /De Nellenbourg/
+      Example: graf
+
+Italian:
+  - Conte
+      Example: Roricon /Conte du Maine/
+      Example: Conte du Maine
+      Example: Riculfo Conte de /Carcassonne/
+  - Contessa
+      Example: Ermellina /Contessa dei ALBERTI/
+      Example: Contessa dei ALBERTI
+      Example: Guinidilda Contessa de /Carcassonne/
+  - Marchese
+      Example: Marchese of Unruochinger /di Fruili/
+      Example: Marchese of Unruochinger
+      Example: Marchese of Unruochinger /di Fruili/
+  - Regina
+      Example: Regina /of Auxerre/
+      Example: Regina /of Auxerre/
+      Example: Regina
+  - principe
+      Example: Aio /principe di Benevento/
+      Example: principe di Benevento
+  - re
+      Example: re-mariage de J-Bte Guenet
+
+Latin:
+  - Dux
+      Example: Ferreolus /de Rodez Dux/
+      Example: de Rodez Dux
+      Example: Coel Hen /ap Tegfan/ of Britain , King of Northern Britain, Dux Brittanorum, Governor of Ebrauc
+  - Regina
+      Example: Regina /of Auxerre/
+      Example: Regina /of Auxerre/
+      Example: Regina
+  - Rex
+      Example: Filia Rex /Scotiae/
+      Example: Filia Rex
+      Example: Margaret Filia Rex /Delumley/
+
+Norse:
+  - Jarl
+      Example: Jarl Rognvald /Eysteinssonn/
+      Example: Jarl Rognvald
+      Example: Sigurd Hlodvirsson /Jarl/
+  - Thane
+      Example: Crinan 'The Thane' //
+      Example: Crinan 'The Thane'
+      Example: Crinan 'The Thane' Mormaer of Atholl //
+
+Portuguese:
+  - CONDE
+      Example: Havise /DE CONDE-D'ANTOING/
+      Example: Havise /DE CONDE-D'ANTOING/
+      Example: DE CONDE-D'ANTOING
+  - Conde
+      Example: Isabel /De Conde/
+      Example: Isabel /De Conde/
+      Example: De Conde
+  - Condessa
+      Example: Condessa /Cerdayna/
+      Example: Condessa
+      Example: Condessa /De Cerdagne de Cordoue-D'Aquitaine/
+  - DUQUE
+      Example: Frederico I DUQUE DE /LOTARÍNGEA/
+      Example: Frederico I DUQUE DE /LOTARÍNGEA/
+      Example: Frederico I DUQUE DE
+  - Duque
+      Example: Guerech I /Duque de Bretaña/
+      Example: Guerech I /Duque de Bretaña/
+      Example: Duque de Bretaña
+  - Duquesa
+      Example: Menina /Gosende de Cantabria Duquesa de Cantabria/
+      Example: Menina /Gosende de Cantabria Duquesa de Cantabria/
+      Example: Gosende de Cantabria Duquesa de Cantabria
+  - Rei
+      Example: Aminadabe /Rei Graal/
+      Example: Rei Graal
+  - Senhora
+      Example: Senhora Sancho /Sanchez/
+      Example: Senhora Sancho
+      Example: Senhora Pedro Afonso de //
+
+Spanish:
+  - CONDE
+      Example: Havise /DE CONDE-D'ANTOING/
+      Example: Havise /DE CONDE-D'ANTOING/
+      Example: DE CONDE-D'ANTOING
+  - Conde
+      Example: Isabel /De Conde/
+      Example: Isabel /De Conde/
+      Example: De Conde
+  - Condesa
+      Example: Elvira /De Castilla,  Condesa dos cristãos de Coimbra/
+      Example: De Castilla,  Condesa dos cristãos de Coimbra
+  - DUQUE
+      Example: Frederico I DUQUE DE /LOTARÍNGEA/
+      Example: Frederico I DUQUE DE /LOTARÍNGEA/
+      Example: Frederico I DUQUE DE
+  - Duque
+      Example: Guerech I /Duque de Bretaña/
+      Example: Guerech I /Duque de Bretaña/
+      Example: Duque de Bretaña
+  - Duquesa
+      Example: Menina /Gosende de Cantabria Duquesa de Cantabria/
+      Example: Menina /Gosende de Cantabria Duquesa de Cantabria/
+      Example: Gosende de Cantabria Duquesa de Cantabria
+  - REINA
+      Example: Urraca /Galindez REINA CONSORTE DE NAVARRA/
+      Example: Galindez REINA CONSORTE DE NAVARRA
+  - Reina
+      Example: Ozenda /De Navarra Reina Consorte de Asturias/
+      Example: De Navarra Reina Consorte de Asturias
+  - Rey
+      Example: Fernaudu Rey /Leon II/
+      Example: Fernaudu Rey
+      Example: Alfonso VII el Emperador /Rey de Castile and Leon/
+  - Señora
+      Example: Señora /de Castrogeriz/
+      Example: Señora
+  - señor
+      Example: Aznar III señor de Vizcaya //
+      Example: Aznar III señor de Vizcaya
+
+### OCCUPATIONS FOUND IN DATA ###
+
+English:
+  - "The Rich" Counselor of Paris
+  - # adopted
+  - # married twice?
+  - #adopted
+  - 1st Earl of Huntingdon
+  - 1st husband
+  - 1st husband of H1511
+  - 2 husbands
+  - 2nd Earl of Leicester
+  - 2nd Lord Of Leinster
+  - Abbesse
+  - Ambassadeur
+  - Amiral
+  - Architecte
+  - Attleboro, Mass & Wallace
+  - Audiologist
+  - Avocate
+  - Barber, Glass Maker and Weaver
+  - Boulanger
+  - Brooklyn, NY
+
+French:
+  - Abbé
+  - Administratrice du magasin
+  - Amiral de l'Empire, Régent de Byzance de 919 à 944.
+  - Apothicaire de la reine et épicier.
+  - Avocat au Parlement de Paris
+  - Bourgmestre De Bruges
+  - Camérier
+  - Capitaine
+  - Capitaine (de cette cote)
+  - Capitaine des Milices
+  - Chancelier du roi Clothaire III
+  - Châtelaine
+  - Châtelaine d'Amiens.
+  - Co-Roi de Thuringe
+  - Commandant de la Paphlagonie.
+  - Commanding Officer of Les Voltigeurs de Quebec
+  - Comte d'Anjou, Duc de Bretagne
+  - Comte d'Anjou. Il occupe le comté de Nantes de 907 à 919.
+  - Comte d'Artois, Vitry, Pévèle & Mélantois.
+  - Comte dans le Cambraisis
+
+German:
+  - "subregulus" of Kent, Essex, Sussex and Surrey in 825 or 828, and succeed
+  - # divorced in 1979
+  - 'Civil and Criminal Leutenant (Judge) for Quebec in 1651. Around July 20
+  - A merchant in Antigonish, Nova Scotia.
+  - Comte d'Aulun & Markgraf von Septimanie
+  - Count von Ringelheim
+  - He was the first School Master in Gloucester  and Town Clerk for 51 years .
+  - Held various management positions in Min of Justice.
+  - King in Soissons
+  - Lived in Wentworth
+  - Lives in Toronto
+  - Minister (preacher).  In 1832 he received a certificate authorizing, hi
+  - Pfalzgraf in Saxony
+  - a businessman, in the field of contruction materials
+  - a cabinet maker and farmer from Freetown, PEI  moved to VAncouver in 191
+  - an artist. She was employed as a set painter for the movie "Boy in Blue
+  - an artist. She was employed as a set painter for the movie "Boy in Blue"when she died.
+  - died in infancy?
+  - enroled in Canadian Army as a gunner in the Royal Canadian ArtilleryAnti-Tank. Pay $1.30 per diem.
+  - killed early in WW 1
+
+Italian:
+  - King of Scotland, succeeding Donald I
+  - Referendarius to Dagobert I, King of Neustria
+  - m. C.E. Casey
+  - m. Frederick E. Bettle
+
+Portuguese:
+  - Chemical engineer. Charles was a member of the American Chemical Societ
+  - Founder of a shipbuilding business / Carpenter
+  - RCMP constable then a businessman
+  - Transport Canada as an Air Traffic Controller then as a  Manager
+  - a businessman and stock broker
+  - a carpenter
+  - a magistrate
+  - a prof. at Wesleyan
+  - a twin
+  - founder of O'Hara Bakeries
+  - kept a public house
+  - m. a cousin, his 2nd wife
+  - owners of a bowling alley. They purchased the business and turned it int
+  - prince of Armenia. Byzantine Curopalates (a title awarded to the rulers o
+  - school teacher; a customs collector; a Postmaster and a Commissionner o
+  - some give name as Bessie
+  - started articling as sollicitor.
+  - was a loyalist. He was a member of Capt. Kipps Dragoons, Westchester Corp
+
+Spanish:
+  - navigator, farmer-fisherman (Ònavigateur, habt-pcheurÓ) (as a navigator
+
+### EVENT TYPES FOUND IN DATA ###
+
+English:
+  - 1678 Census
+  - Alternate Death Place
+  - Anecdote
+  - Arrival
+  - Biography
+  - Buried and Location
+  - Cause of Death
+  - Census (fam)
+  - Christened
+  - Coat of Arms Documentation
+  - Departure
+  - Emprisonnement
+  - Event-Misc
+  - Fact
+  - Gravesite
+  - How He Died:
+  - Illness
+  - Land
+  - LifeSketch
+  - Marriage Notice
+  - Mayflower
+  - Milit
+  - Milit-Beg
+  - Milit-End
+  - Military
+  - Misc
+  - More family info:
+  - Person-Source
+  - Proof Emma was the wife of Vincent Meigs
+  - Ref #
+  - Ref # (Fam)
+  - Residence
+  - Separated
+  - Title
+  - Title (Nobility)
+  - Title of Nobility
+  - cohabit
+  - crowned
+  - family research link
+  - immigration
+
+French:
+  - Contrat de mariage
+  - Contrat de mariage entre Pierre Hudon dit Beaulieu et Marie Gobeil
+  - Inventaire de la succession des biens
+
+German:
+  - Arrival in Quebec
+  - Arrived in Boston, British Colonial America in 1634 from Suffolk, England
+
+Portuguese:
+  - A Representative
+  - Find A Grave
+
+### SAMPLE PLACES BY LANGUAGE ###
+
+English:
+  - Bothamsall, Nottingham, England
+  - Bristol, England, United Kingdom
+  - Dudley, England
+  - Mangotsfield, Bristol, Gloucestershire, England
+  - Middle Claydon, Buckingham, England
+  - Ohio, United States
+  - Orkney Island, Orkney, Scotland
+  - Plaisance, , , Italy
+  - South End Cemetary, East Hampton, Suffolk County, New York, United States of America
+  - Willisham, Mid Suffolk District, Suffolk, England
+
+French:
+  - Bar-sur-Aube, Aube, Champagne-Ardenne, France
+  - Châteaubriant, Loire-Atlantique, France
+  - Conteville, Pas-de-Calais, Nord-Pas-de-Calais, France
+  - Creil, Oise, Hauts-de-France, France
+  - Hay du Puits, Normande, France
+  - Hudson, Québec, Canada
+  - Longwy, Meurthe Et Moselle, Lorraine, France
+  - Ste-Mélaine, ar. Pont-l'Eveque, ev. Lisieux, Normandie (Calvados), France
+  - Thoires, Côte-d'Or, Bourgogne, France
+  - Vendôme, Loir-et-Cher, Centre, France
+
+German:
+  - Görlitz, Dresden, Sachsen, Allemagne
+  - Kathedral von Aachen, Nordrhein-Westfalen, Heiliges Römisches Reich
+  - Kilnely In Craven, England
+  - Köln, Regierungsbezirk Köln, North Rhine-Westphalia, Duitsland
+  - buried in Dettingen, later reburied in Zwiefalten Monastery
+  - in battle at Mechain, Montgomeryshire, Wales
+  - in battle, Fontenoy, Belgique
+  - in battle, Lune, Elbe, , Germany
+  - killed in battle with the Arabia
+  - Þórshöfn, Norður-Þingeyjarsýsla, Norðurland Eystra, Iceland
+
+Italian:
+  - Aftbatlnicopolis, Provincia di Venezia, Nicopolis, Italy
+  - Hof, Hof i Alptafirdi, Sudur Mula, Iceland
+  - IL 60655 Chicago, Cook, Illinois, United States
+  - Naustdal i . Nordfjord, Sogn og Fjordane, Norway
+  - Pavia, Provincia di Pavia, Lombardia, Italy
+  - Provincia di Milano, Italy
+  - Provincia di Napoli, Italie
+  - Savoia di Lucania, Potenza, Italy
+  - Thvotta, Hof I Alptafirdi, Sudur Mula, Iceland
+  - Turin, Provincia di Torino, Piemonte, Italy
+
+Portuguese:
+  - (Ireland-O'Toole
+  - A Rock near Stein
+  - Died a prisoner, Wallingford Castle, Berkshire, , England
+  - Guimarães Oliveira do Castelo, Guimarães, Braga, Portugal
+  - Land Granr, a., Scotland
+  - O'ahu, Hawaii, United States
+  - São Pulo, Amazonas, Brazil
+  - Virtual Burial on Find a Grave, actual location currently unknown
+  - during a voyage to Boston to negotiate an exchange of prisoners
+  - murdered by a vassal Bernard Plantevelues, France
+
+Spanish:
+  - Arnedo, Navarra, España
+  - El Beni, Bolivia
+  - Esztergom, Komárom, Hungary
+  - Esztergom, Komárom-Esztergom, Hungary
+  - Góra, Dolnoslaskie, Poland
+  - Hofi, Rangárvallasýsla, Suðurland, Iceland
+  - Ravenna, Milán, Italia
+  - Seville, Seville, Andalucía, Spain
+  - Y.
+  - Zamora, Castilla y León, España
+
+================================================================================
+COMPREHENSIVE EQUIVALENCY TABLE
+================================================================================
+
+### MILITARY RANKS ###
+
+|------------|------------|------------|------------|------------|------------|
+|  English   |   French   |   German   |  Italian   | Portuguese |  Spanish   |
+|------------|------------|------------|------------|------------|------------|
+| Lieutenant | Lieutenant |  Leutnant  |  Tenente   |  Tenente   |  Teniente  |
+|  Captain   | Capitaine  | Hauptmann  |  Capitano  |  Capitão   |  Capitán   |
+|   Major    |   Major    |   Major    |  Maggiore  |   Major    |   Mayor    |
+|  Colonel   |  Colonel   |   Oberst   | Colonnello |  Coronel   |  Coronel   |
+|  General   |  Général   |  General   |  Generale  |  General   |  General   |
+|  Private   |   Soldat   |   Soldat   |  Soldato   |  Soldado   |  Soldado   |
+|  Sergeant  |  Sergent   | Feldwebel  |  Sergente  |  Sargento  |  Sargento  |
+|------------|------------|------------|------------|------------|------------|
+
+### RELATIONSHIPS ###
+
+|-----------|-----------|-----------|-----------|-----------|-----------|
+|  English  |  French   |  German   |  Italian  | Portuguese |  Spanish  |
+|-----------|-----------|-----------|-----------|-----------|-----------|
+|  Father   |   Père    |   Vater   |   Padre   |    Pai    |   Padre   |
+|  Mother   |   Mère    |  Mutter   |   Madre   |    Mãe    |   Madre   |
+|    Son    |   Fils    |   Sohn    |  Figlio   |   Filho   |   Hijo    |
+| Daughter  |   Fille   |  Tochter  |  Figlia   |   Filha   |   Hija    |
+|  Brother  |   Frère   |  Bruder   | Fratello  |   Irmão   |  Hermano  |
+|  Sister   |   Sœur    | Schwester |  Sorella  |   Irmã    |  Hermana  |
+|  Husband  |   Mari    |  Ehemann  |  Marito   |  Marido   |  Esposo   |
+|   Wife    |   Femme   |  Ehefrau  |  Moglie   |  Esposa   |  Esposa   |
+|-----------|-----------|-----------|-----------|-----------|-----------|
+
+### EVENT TYPES ###
+
+|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
+|      English      |      French       |      German       |      Italian      |    Portuguese     |      Spanish      |
+|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
+|       Birth       |     Naissance     |      Geburt       |      Nascita      |    Nascimento     |    Nacimiento     |
+|       Death       |       Décès       |        Tod        |       Morte       |       Óbito       |     Defunción     |
+|     Marriage      |      Mariage      |     Hochzeit      |    Matrimonio     |     Casamento     |    Matrimonio     |
+|      Baptism      |      Baptême      |       Taufe       |     Battesimo     |      Batismo      |     Bautismo      |
+|      Burial       |    Inhumation     |    Beerdigung     |     Sepoltura     |   Sepultamento    |     Entierro      |
+|     Residence     |     Résidence     |     Wohnsitz      |     Residenza     |    Residência     |    Residencia     |
+|    Occupation     |    Profession     |       Beruf       |    Occupazione    |     Ocupação      |     Ocupación     |
+| Military Service  | Service Militaire |   Militärdienst   | Servizio Militare |  Serviço Militar  | Servicio Militar  |
+|     Education     |     Éducation     |      Bildung      |    Istruzione     |     Educação      |     Educación     |
+|    Immigration    |    Immigration    |   Einwanderung    |   Immigrazione    |     Imigração     |    Inmigración    |
+|    Emigration     |    Émigration     |   Auswanderung    |    Emigrazione    |     Emigração     |    Emigración     |
+|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
+
+### TITLES ###
+
+|----------|----------|----------|----------|----------|----------|
+| English  |  French  |  German  | Italian  | Portuguese | Spanish  |
+|----------|----------|----------|----------|----------|----------|
+|   Mr.    |    M.    |   Herr   |   Sig.   |   Sr.    |   Sr.    |
+|   Mrs.   |   Mme    |   Frau   |  Sig.ra  |   Sra.   |   Sra.   |
+|   Miss   |   Mlle   | Fräulein |  Sig.na  |  Srta.   |  Srta.   |
+|   Dr.    |    Dr    |   Dr.    |  Dott.   |   Dr.    |   Dr.    |
+|   Rev.   |   Rév.   | Pfarrer  |   Rev.   |   Rev.   |   Rev.   |
+|   Sir    |  Sieur   |   Herr   | Signore  |  Senhor  |  Señor   |
+|   Lady   |   Dame   |   Frau   | Signora  | Senhora  |  Señora  |
+|   Lord   | Seigneur |   Herr   | Signore  |  Senhor  |  Señor   |
+|----------|----------|----------|----------|----------|----------|
+
+### OCCUPATIONS ###
+
+|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+|      English       |       French       |       German       |      Italian       |     Portuguese     |      Spanish       |
+|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+|       Farmer       |    Cultivateur     |       Bauer        |    Agricoltore     |     Agricultor     |     Agricultor     |
+|      Merchant      |     Commerçant     |      Kaufmann      |    Commerciante    |    Comerciante     |    Comerciante     |
+|      Teacher       |     Enseignant     |       Lehrer       |     Insegnante     |     Professor      |      Maestro       |
+|       Doctor       |      Médecin       |        Arzt        |       Medico       |       Médico       |       Médico       |
+|       Lawyer       |       Avocat       |       Anwalt       |      Avvocato      |      Advogado      |      Abogado       |
+|     Carpenter      |    Charpentier     |     Zimmermann     |     Falegname      |    Carpinteiro     |     Carpintero     |
+|     Blacksmith     |      Forgeron      |      Schmied       |       Fabbro       |      Ferreiro      |      Herrero       |
+|     Postmaster     |  Maître de poste   |    Postmeister     | Direttore postale  | Chefe dos correios |  Jefe de correos   |
+|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+
+================================================================================
+ANALYSIS COMPLETE
+================================================================================
+
+Total text samples analyzed: 16911
+
+Languages detected:
+  - English: 15758 occurrences
+  - French: 1044 occurrences
+  - German: 64 occurrences
+  - Portuguese: 36 occurrences
+  - Italian: 8 occurrences
+  - Spanish: 1 occurrences

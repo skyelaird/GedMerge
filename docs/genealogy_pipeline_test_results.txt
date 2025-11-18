@@ -1,0 +1,260 @@
+
+================================================================================
+GENEALOGY NAME PARSING & NORMALIZATION TEST
+================================================================================
+
+Test file: Joel2020.ged
+Path: /home/user/Python-Scripts/GedMerge/GEDCOM/Joel2020.ged
+
+================================================================================
+STEP 1: LOADING GEDCOM DATA
+================================================================================
+
+✓ Loaded 58953 individuals
+✓ Loaded 37043 families
+✓ Demographics: 32125 males, 26785 females, 43 unknown
+✓ Date range: 25 - 2017
+
+================================================================================
+ANALYZING ORIGINAL NAME DATA
+================================================================================
+
+Scanned 58953 individuals for name structure issues:
+
+ALL CAPS: 40 found
+  • @I6091@: N... /N.../
+  • @I6231@: N... /N.../
+  • @I25224@:  /N. N/
+  ... and 37 more
+
+EMBEDDED VARIANTS: 3 found
+  • @I33291@: Anna Maria /Bäysen [Bayh]/
+  • @I33297@: Johann Hanss Jerg /Bäysen [Bayh]/
+  • @I44788@: John[The Younger] /Coggeshall/
+TITLES: 982 found
+  • @I27@: Halfdan King of the Uplanders
+  • @I95@: Uchtred Earl /Northumbria/
+  • @I108@: Boleslaw I 'the Gruesome' Duke of Bohemia
+  ... and 979 more
+
+PARTICLES: 22426 found
+  • @I6@: Deryn Elizabeth /Hughes/
+  • @I14@: Brian Alexander Athanase /Morin/
+  • @I18@: Hugues /de France/
+  ... and 22423 more
+
+EPITHETS: 1950 found
+  • @I85@: Richard II 'le bon' duc de Normandie
+  • @I108@: Boleslaw I 'the Gruesome' Duke of Bohemia
+  • @I110@: Crinan 'The Thane' Mormaer of Atholl
+  ... and 1947 more
+
+ORDINALS: 2056 found
+  • @I19@: Elisabeth /de Vermandois/
+  • @I20@: Adelaide Comtesse de Vermandois et de Valoi
+  • @I21@: Isabel /de Vermandois/
+  ... and 2053 more
+
+
+================================================================================
+APPLYING INTELLIGENT NAME PARSING
+================================================================================
+
+Processed 58953 individuals
+Found 53365 names that need normalization
+
+Sample Corrections (showing first 15):
+
+1. Person: @I1@
+   Original:   Joël Jean MacDonald /Morin/
+   Normalized: Joël Jean MacDonald /Morin/
+   Components: given='Joël Jean MacDonald', surname='Morin'
+
+2. Person: @I2@
+   Original:   Joseph Athanase /Morin/
+   Normalized: Joseph Athanase /Morin/
+   Components: given='Joseph Athanase', surname='Morin'
+
+3. Person: @I3@
+   Original:   Jessica Norberta /Corbett/
+   Normalized: Jessica Norberta /Corbett/
+   Components: given='Jessica Norberta', surname='Corbett'
+
+4. Person: @I4@
+   Original:   Leanne Mahinaku /Maxey/
+   Normalized: Leanne Mahinaku /Maxey/
+   Components: given='Leanne Mahinaku', surname='Maxey'
+
+5. Person: @I5@
+   Original:   Bryn Elise /Morin/
+   Normalized: Bryn Elise /Morin/
+   Components: given='Bryn Elise', surname='Morin'
+
+6. Person: @I6@
+   Original:   Deryn Elizabeth /Hughes/
+   Normalized: Deryn Elizabeth /Hughes/
+   Components: given='Deryn Elizabeth', surname='Hughes'
+
+7. Person: @I7@
+   Original:   James Matthew /Erlam/
+   Normalized: James Matthew /Erlam/
+   Components: given='James Matthew', surname='Erlam'
+
+8. Person: @I8@
+   Original:   Christopher Luke /Erlam/
+   Normalized: Christopher Luke /Erlam/
+   Components: given='Christopher Luke', surname='Erlam'
+
+9. Person: @I9@
+   Original:   Paul /Erlam/
+   Normalized: Paul /Erlam/
+   Components: given='Paul', surname='Erlam'
+
+10. Person: @I10@
+   Original:   Craig Parry /Hughes/
+   Normalized: Craig Parry /Hughes/
+   Components: given='Craig Parry', surname='Hughes'
+
+11. Person: @I11@
+   Original:   Nancy Wayne /Bragdon/
+   Normalized: Nancy Wayne /Bragdon/
+   Components: given='Nancy Wayne', surname='Bragdon'
+
+12. Person: @I12@
+   Original:   Joseph Leon /Morin/
+   Normalized: Joseph Leon /Morin/
+   Components: given='Joseph Leon', surname='Morin'
+
+13. Person: @I13@
+   Original:   Marie Alphonsine /Lacasse/
+   Normalized: Marie Alphonsine /Lacasse/
+   Components: given='Marie Alphonsine', surname='Lacasse'
+
+14. Person: @I14@
+   Original:   Brian Alexander Athanase /Morin/
+   Normalized: Brian Alexander Athanase /Morin/
+   Components: given='Brian Alexander Athanase', surname='Morin'
+
+15. Person: @I15@
+   Original:   Richard Pierre Ross Ernest /Morin/
+   Normalized: Richard Pierre Ross Ernest /Morin/
+   Components: given='Richard Pierre Ross Ernest', surname='Morin'
+
+... and 53350 more fixes not shown
+
+================================================================================
+FINDING POTENTIAL DUPLICATE CANDIDATES
+================================================================================
+
+Scanning for potential duplicates using name similarity...
+
+Found 26171 potential duplicate pairs based on name similarity
+
+Sample Duplicate Candidates (showing first 10):
+
+1. Potential Match:
+   Person 1: @I1@
+     Name: Joël Jean MacDonald /Morin/
+     Birth: 1955, Death: Unknown
+   Person 2: @I1235@
+     Name: Jean /Morin/
+     Birth: 1825, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+2. Potential Match:
+   Person 1: @I2@
+     Name: Joseph Athanase /Morin/
+     Birth: 1911, Death: 1993
+   Person 2: @I1231@
+     Name: Joseph /Morin/
+     Birth: 1829, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+3. Potential Match:
+   Person 1: @I2@
+     Name: Joseph Athanase /Morin/
+     Birth: 1911, Death: 1993
+   Person 2: @I1771@
+     Name: Joseph /Morin/
+     Birth: 1780, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+4. Potential Match:
+   Person 1: @I2@
+     Name: Joseph Athanase /Morin/
+     Birth: 1911, Death: 1993
+   Person 2: @I1804@
+     Name: Joseph /Morin/
+     Birth: 1736, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+5. Potential Match:
+   Person 1: @I2@
+     Name: Joseph Athanase /Morin/
+     Birth: 1911, Death: 1993
+   Person 2: @I1849@
+     Name: Joseph /Morin/
+     Birth: 1779, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+6. Potential Match:
+   Person 1: @I2@
+     Name: Joseph Athanase /Morin/
+     Birth: 1911, Death: 1993
+   Person 2: @I1965@
+     Name: Joseph /Morin/
+     Birth: 1800, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+7. Potential Match:
+   Person 1: @I12@
+     Name: Joseph Leon /Morin/
+     Birth: 1879, Death: 1956
+   Person 2: @I1212@
+     Name: Leon /Morin/
+   Match Reason: Same surname 'morin', similar given names
+
+8. Potential Match:
+   Person 1: @I12@
+     Name: Joseph Leon /Morin/
+     Birth: 1879, Death: 1956
+   Person 2: @I1231@
+     Name: Joseph /Morin/
+     Birth: 1829, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+9. Potential Match:
+   Person 1: @I12@
+     Name: Joseph Leon /Morin/
+     Birth: 1879, Death: 1956
+   Person 2: @I1771@
+     Name: Joseph /Morin/
+     Birth: 1780, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+10. Potential Match:
+   Person 1: @I12@
+     Name: Joseph Leon /Morin/
+     Birth: 1879, Death: 1956
+   Person 2: @I1804@
+     Name: Joseph /Morin/
+     Birth: 1736, Death: Unknown
+   Match Reason: Same surname 'morin', similar given names
+
+... and 26161 more potential duplicates
+
+================================================================================
+SUMMARY
+================================================================================
+
+✓ Analyzed 58953 individuals
+✓ Identified 27457 name structure issues
+✓ Prepared 53365 name normalization fixes
+✓ Found 26171 potential duplicate pairs
+
+Next Steps:
+  1. Review the name parsing fixes above
+  2. Apply normalization to standardize name fields
+  3. Review duplicate candidates for consolidation
+  4. Use tree-aware sanity checking before merging
+

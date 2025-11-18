@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gedmerge"
+version = "0.1.0"
+description = "A tool to find and merge duplicate people in GEDCOM genealogy files"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "GEDMerge Contributors"}
+]
+keywords = ["genealogy", "gedcom", "duplicate-detection", "family-tree"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Sociology :: Genealogy",
+]
+
+dependencies = [
+    "python-gedcom>=1.0.0",
+    "rapidfuzz>=3.0.0",
+    "phonetics>=1.0.0",
+    # Machine Learning Core
+    "scikit-learn>=1.3.0",
+    "xgboost>=2.0.0",
+    "lightgbm>=4.0.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    # Deep Learning
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "sentence-transformers>=2.2.0",
+    # Graph Neural Networks
+    "torch-geometric>=2.3.0",
+    "networkx>=3.0",
+    # NLP & Language Detection
+    "fasttext-wheel>=0.9.2",
+    "spacy>=3.6.0",
+    # Model Training & Evaluation
+    "optuna>=3.3.0",
+    "mlflow>=2.7.0",
+    "joblib>=1.3.0",
+    # Web Framework & API
+    "fastapi>=0.103.0",
+    "uvicorn>=0.23.0",
+    "pydantic>=2.0.0",
+    # Visualization & Monitoring
+    "plotly>=5.16.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    # Database & Caching
+    "redis>=5.0.0",
+    "celery>=5.3.0",
+    # AI Integration
+    "anthropic>=0.18.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.0.285",
+    "mypy>=1.5.0",
+]
+ml = [
+    # Additional ML tools for experimentation
+    "jupyter>=1.0.0",
+    "ipykernel>=6.25.0",
+    "tensorboard>=2.14.0",
+]
+
+[project.scripts]
+gedmerge = "gedmerge.ui.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --cov=gedmerge --cov-report=term-missing"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gedmerge*"]
+exclude = ["tests*"]
