@@ -44,3 +44,6 @@ Thumbs.db
 
 # RootsMagic databases (extracted from ZIP)
 *.rmtree
+
+# Audit trail databases (generated)
+*.audit.db

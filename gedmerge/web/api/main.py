@@ -227,7 +227,7 @@ async def predict_duplicate(request: DuplicateCheckRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error in duplicate prediction: {e}")
+        logger.error(f"Error in duplicate prediction: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -250,7 +250,7 @@ async def predict_name_match(request: NamePair):
         }
 
     except Exception as e:
-        logger.error(f"Error in name matching: {e}")
+        logger.error(f"Error in name matching: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -272,7 +272,7 @@ async def predict_language(request: LanguageDetectionRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error in language detection: {e}")
+        logger.error(f"Error in language detection: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -303,7 +303,7 @@ async def predict_quality(request: QualityCheckRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error in quality prediction: {e}")
+        logger.error(f"Error in quality prediction: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -375,7 +375,7 @@ async def run_training_job(job_id: str, request: TrainingJobRequest):
         training_jobs[job_id]['status'] = 'failed'
         training_jobs[job_id]['error'] = str(e)
         training_jobs[job_id]['failed_at'] = datetime.now().isoformat()
-        logger.error(f"Training job {job_id} failed: {e}")
+        logger.error(f"Training job {job_id} failed: {e}", exc_info=True)
 
 
 @app.get("/api/metrics/{model_name}")
@@ -404,7 +404,7 @@ async def upload_file(file: UploadFile = File(...)):
         try:
             upload_dir.mkdir(parents=True, exist_ok=True)
         except Exception as mkdir_error:
-            logger.error(f"Failed to create upload directory {upload_dir}: {mkdir_error}")
+            logger.error(f"Failed to create upload directory {upload_dir}: {mkdir_error}", exc_info=True)
             raise HTTPException(
                 status_code=500,
                 detail=f"Failed to create upload directory: {str(mkdir_error)}"
@@ -423,7 +423,7 @@ async def upload_file(file: UploadFile = File(...)):
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
         except Exception as save_error:
-            logger.error(f"Failed to save file {file_path}: {save_error}")
+            logger.error(f"Failed to save file {file_path}: {save_error}", exc_info=True)
             raise HTTPException(
                 status_code=500,
                 detail=f"Failed to save file: {str(save_error)}"
@@ -686,7 +686,7 @@ async def analyze_places(request: PlacesAnalysisRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error analyzing places: {e}")
+        logger.error(f"Error analyzing places: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -838,7 +838,7 @@ async def repair_places(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error repairing places: {e}")
+        logger.error(f"Error repairing places: {e}", exc_info=True)
         # End audit session with error status if it was started
         try:
             if 'audit' in locals() and 'session_id' in locals():
@@ -1049,7 +1049,7 @@ async def repair_names(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error repairing names: {e}")
+        logger.error(f"Error repairing names: {e}", exc_info=True)
         # End audit session with error status if it was started
         try:
             if 'audit' in locals() and 'session_id' in locals():
@@ -1214,7 +1214,7 @@ async def repair_events(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error repairing events: {e}")
+        logger.error(f"Error repairing events: {e}", exc_info=True)
         # End audit session with error status if it was started
         try:
             if 'audit' in locals() and 'session_id' in locals():
@@ -1388,7 +1388,7 @@ async def repair_people(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error repairing people: {e}")
+        logger.error(f"Error repairing people: {e}", exc_info=True)
         # End audit session with error status if it was started
         try:
             if 'audit' in locals() and 'session_id' in locals():
@@ -1729,7 +1729,7 @@ async def sanity_check(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error running sanity check: {e}")
+        logger.error(f"Error running sanity check: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -1806,13 +1806,137 @@ async def repair_all(request: RepairRequest):
         }
 
     except Exception as e:
-        logger.error(f"Error running all repairs: {e}")
+        logger.error(f"Error running all repairs: {e}", exc_info=True)
         # End audit session with error status if it was started
         try:
             if 'audit' in locals() and 'master_session_id' in locals():
                 audit.end_session(master_session_id, "failed", 0, 0)
         except:
             pass
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ========== Audit Trail & Rollback Endpoints ==========
+
+class AuditSessionRequest(BaseModel):
+    database_path: str
+    session_id: int
+
+
+@app.get("/api/audit/sessions")
+async def list_audit_sessions(database_path: str, limit: int = 50):
+    """List recent audit sessions."""
+    try:
+        from ...utils.audit_trail import AuditTrail
+
+        audit = AuditTrail(database_path)
+        sessions = audit.get_sessions(limit=limit)
+
+        return {
+            "sessions": sessions,
+            "total": len(sessions),
+            "status": "completed"
+        }
+
+    except Exception as e:
+        logger.error(f"Error listing audit sessions: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/audit/session/{session_id}")
+async def get_audit_session(database_path: str, session_id: int):
+    """Get details of a specific audit session."""
+    try:
+        from ...utils.audit_trail import AuditTrail
+
+        audit = AuditTrail(database_path)
+        report = audit.export_session_report(session_id)
+
+        if not report:
+            raise HTTPException(status_code=404, detail="Session not found")
+
+        return report
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting audit session: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/audit/rollback/preview")
+async def preview_rollback(request: AuditSessionRequest):
+    """Preview what would be rolled back."""
+    try:
+        from ...utils.audit_trail import AuditTrail
+
+        audit = AuditTrail(request.database_path)
+        preview = audit.preview_rollback(request.session_id)
+
+        return preview
+
+    except Exception as e:
+        logger.error(f"Error previewing rollback: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/audit/rollback/execute")
+async def execute_rollback(request: AuditSessionRequest):
+    """Execute a rollback of a session."""
+    try:
+        from ...utils.audit_trail import AuditTrail
+
+        logger.info(f"Executing rollback for session {request.session_id}")
+
+        audit = AuditTrail(request.database_path)
+
+        # First check if rollback is safe
+        can_rollback, reason = audit.can_rollback_session(request.session_id)
+
+        if not can_rollback:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cannot rollback session: {reason}"
+            )
+
+        # Execute rollback
+        result = audit.rollback_session(request.session_id, dry_run=False)
+
+        if not result['success']:
+            raise HTTPException(
+                status_code=500,
+                detail=result.get('reason', 'Rollback failed')
+            )
+
+        logger.info(f"Rollback completed: {result['changes_reverted']} changes reverted")
+
+        return result
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error executing rollback: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/audit/record/{table_name}/{record_id}")
+async def get_record_history(database_path: str, table_name: str, record_id: int):
+    """Get change history for a specific record."""
+    try:
+        from ...utils.audit_trail import AuditTrail
+
+        audit = AuditTrail(database_path)
+        history = audit.get_record_history(table_name, record_id)
+
+        return {
+            "table_name": table_name,
+            "record_id": record_id,
+            "changes": [h.to_dict() for h in history],
+            "total_changes": len(history)
+        }
+
+    except Exception as e:
+        logger.error(f"Error getting record history: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
