@@ -202,9 +202,16 @@ class Place:
         Returns:
             New Place instance with combined information
         """
-        # Combine names from both places
+        # Combine names from both places, preserving variants
         merged_names = self.names.copy()
-        merged_names.update(other.names)
+        for lang, name in other.names.items():
+            if lang in merged_names and merged_names[lang] != name:
+                # If same language has different name, preserve both
+                # Store original as lang-alt
+                merged_names[f"{lang}-alt"] = merged_names[lang]
+                merged_names[lang] = name
+            else:
+                merged_names[lang] = name
 
         # Use the more complete hierarchy
         merged_hierarchy = self.hierarchy if len(self.hierarchy) > len(other.hierarchy) else other.hierarchy
