@@ -407,6 +407,226 @@ class AuditTrail:
             data['metadata'] = json.loads(data['metadata'])
         return AuditEntry.from_dict(data)
 
+    def can_rollback_session(self, session_id: int) -> Tuple[bool, str]:
+        """Check if a session can be safely rolled back.
+
+        Args:
+            session_id: The session ID to check
+
+        Returns:
+            Tuple of (can_rollback, reason)
+        """
+        cursor = self.conn.cursor()
+
+        # Check if session exists
+        cursor.execute("""
+            SELECT status, end_time
+            FROM repair_session
+            WHERE session_id = ?
+        """, (session_id,))
+
+        session = cursor.fetchone()
+        if not session:
+            return False, "Session not found"
+
+        if session['status'] == 'running':
+            return False, "Cannot rollback a running session"
+
+        # Check if there are any newer sessions that might have modified the same records
+        cursor.execute("""
+            SELECT COUNT(DISTINCT a2.id)
+            FROM session_audit_link l1
+            INNER JOIN audit_log a1 ON l1.audit_id = a1.id
+            INNER JOIN audit_log a2 ON a1.table_name = a2.table_name AND a1.record_id = a2.record_id
+            INNER JOIN session_audit_link l2 ON a2.id = l2.audit_id
+            WHERE l1.session_id = ?
+            AND l2.session_id != ?
+            AND a2.timestamp > a1.timestamp
+        """, (session_id, session_id))
+
+        conflicts = cursor.fetchone()[0]
+        if conflicts > 0:
+            return False, f"Found {conflicts} conflicting changes from newer sessions"
+
+        return True, "Session can be safely rolled back"
+
+    def preview_rollback(self, session_id: int) -> Dict[str, Any]:
+        """Preview what would be rolled back.
+
+        Args:
+            session_id: The session ID
+
+        Returns:
+            Dictionary with rollback preview information
+        """
+        can_rollback, reason = self.can_rollback_session(session_id)
+
+        if not can_rollback:
+            return {
+                'can_rollback': False,
+                'reason': reason,
+                'changes': []
+            }
+
+        changes = self.get_session_changes(session_id)
+
+        # Group changes by table
+        preview_by_table = {}
+        for change in changes:
+            if change.table_name not in preview_by_table:
+                preview_by_table[change.table_name] = {
+                    'count': 0,
+                    'records': set(),
+                    'operations': set()
+                }
+
+            preview_by_table[change.table_name]['count'] += 1
+            preview_by_table[change.table_name]['records'].add(change.record_id)
+            preview_by_table[change.table_name]['operations'].add(change.operation_type)
+
+        # Convert sets to lists for JSON serialization
+        for table_info in preview_by_table.values():
+            table_info['records'] = list(table_info['records'])
+            table_info['operations'] = list(table_info['operations'])
+
+        return {
+            'can_rollback': True,
+            'reason': reason,
+            'total_changes': len(changes),
+            'preview_by_table': preview_by_table,
+            'changes': [c.to_dict() for c in changes]
+        }
+
+    def rollback_session(self, session_id: int, dry_run: bool = False) -> Dict[str, Any]:
+        """Rollback all changes from a session.
+
+        Args:
+            session_id: The session ID to rollback
+            dry_run: If True, don't actually make changes (preview only)
+
+        Returns:
+            Dictionary with rollback results
+        """
+        # Check if rollback is safe
+        can_rollback, reason = self.can_rollback_session(session_id)
+
+        if not can_rollback:
+            return {
+                'success': False,
+                'reason': reason,
+                'changes_reverted': 0
+            }
+
+        # Get all changes in reverse chronological order
+        changes = list(reversed(self.get_session_changes(session_id)))
+
+        if dry_run:
+            return {
+                'success': True,
+                'dry_run': True,
+                'changes_to_revert': len(changes),
+                'preview': [c.to_dict() for c in changes]
+            }
+
+        # Open connection to main database
+        main_db_conn = sqlite3.connect(str(self.main_db_path))
+        main_db_conn.row_factory = sqlite3.Row
+        cursor = main_db_conn.cursor()
+
+        changes_reverted = 0
+        errors = []
+
+        try:
+            # Start transaction
+            cursor.execute("BEGIN TRANSACTION")
+
+            for change in changes:
+                try:
+                    # Revert the change by setting field back to old value
+                    if change.old_value is not None:
+                        # Update to old value
+                        query = f"""
+                            UPDATE {change.table_name}
+                            SET {change.field_name} = ?
+                            WHERE rowid = (
+                                SELECT rowid FROM {change.table_name}
+                                WHERE rowid IN (
+                                    SELECT rowid FROM {change.table_name}
+                                    LIMIT 1 OFFSET {change.record_id - 1}
+                                )
+                            )
+                        """
+                        # Note: This is a simplified approach. For production,
+                        # you'd want to use proper record ID columns
+                        cursor.execute(f"""
+                            UPDATE {change.table_name}
+                            SET {change.field_name} = ?
+                            WHERE rowid = ?
+                        """, (change.old_value, change.record_id))
+
+                        changes_reverted += 1
+
+                except sqlite3.Error as e:
+                    errors.append({
+                        'change_id': change.id,
+                        'error': str(e),
+                        'table': change.table_name,
+                        'record_id': change.record_id
+                    })
+
+            if errors:
+                # Rollback transaction if there were errors
+                cursor.execute("ROLLBACK")
+                main_db_conn.close()
+
+                return {
+                    'success': False,
+                    'reason': f"Encountered {len(errors)} errors during rollback",
+                    'changes_reverted': 0,
+                    'errors': errors
+                }
+
+            # Commit changes
+            cursor.execute("COMMIT")
+            main_db_conn.close()
+
+            # Log the rollback operation in audit trail
+            rollback_session_id = self.start_session(
+                "rollback",
+                {"rollback_of_session": session_id}
+            )
+
+            for change in changes:
+                self.log_change(
+                    operation_type="rollback",
+                    table_name=change.table_name,
+                    record_id=change.record_id,
+                    field_name=change.field_name,
+                    old_value=change.new_value,  # Swapped
+                    new_value=change.old_value,  # Swapped
+                    reason=f"Rollback of session {session_id}",
+                    session_id=rollback_session_id
+                )
+
+            self.end_session(rollback_session_id, "completed", len(changes), changes_reverted)
+
+            return {
+                'success': True,
+                'changes_reverted': changes_reverted,
+                'rollback_session_id': rollback_session_id,
+                'original_session_id': session_id
+            }
+
+        except Exception as e:
+            main_db_conn.rollback()
+            main_db_conn.close()
+
+            return {
+                'success': False,
+                'reason': f"Rollback failed: {str(e)}",
+                'changes_reverted': 0
+            }
+
     def close(self):
         """Close the audit database connection."""
         if self.conn:
