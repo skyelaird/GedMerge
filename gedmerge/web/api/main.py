@@ -858,6 +858,10 @@ async def repair_places(request: RepairRequest):
                 metadata={"error": str(inner_e)}
             )
             raise
+        finally:
+            # Ensure database connection is closed
+            if 'db' in locals():
+                db.close()
 
     except Exception as e:
         logger.error(f"Error repairing places: {e}", exc_info=True)
@@ -1073,6 +1077,10 @@ async def repair_names(request: RepairRequest):
         except:
             pass
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Ensure database connection is closed
+        if 'db' in locals():
+            db.close()
 
 
 @app.post("/api/repairs/events")
@@ -1241,6 +1249,10 @@ async def repair_events(request: RepairRequest):
                 metadata={"error": str(inner_e)}
             )
             raise
+        finally:
+            # Ensure database connection is closed
+            if 'db' in locals():
+                db.close()
 
     except Exception as e:
         logger.error(f"Error repairing events: {e}", exc_info=True)
@@ -1419,6 +1431,10 @@ async def repair_people(request: RepairRequest):
         except:
             pass
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Ensure database connection is closed
+        if 'db' in locals():
+            db.close()
 
 
 @app.post("/api/quality/sanity-check")
