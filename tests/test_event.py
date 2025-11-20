@@ -10,7 +10,7 @@ def test_event_creation():
 
     assert event.type == 'BIRT'
     assert event.date == '1 JAN 1950'
-    assert event.place == 'New York, NY, USA'
+    assert event.get_place_name() == 'New York, NY, USA'
     assert event.notes is None
     assert event.sources == []
     assert event.attributes == {}
@@ -38,7 +38,8 @@ def test_event_to_dict():
     result = event.to_dict()
     assert result['type'] == 'MARR'
     assert result['date'] == '15 JUN 1975'
-    assert result['place'] == 'London, England'
+    # Place is converted to a dict with names structure
+    assert result['place']['names']['en'] == 'London, England'
     assert result['notes'] == 'Beautiful ceremony'
 
 
@@ -56,7 +57,8 @@ def test_event_from_dict():
     event = Event.from_dict(data)
     assert event.type == 'DEAT'
     assert event.date == '31 DEC 2000'
-    assert event.place == 'Paris, France'
+    # from_dict converts string place to Place object
+    assert event.get_place_name() == 'Paris, France'
     assert event.sources == ['@S1@']
     assert event.attributes['CAUS'] == 'Natural'
 

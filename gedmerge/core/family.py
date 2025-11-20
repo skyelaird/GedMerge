@@ -113,7 +113,7 @@ class Family:
             Marriage place or None
         """
         marriage = self.get_marriage_event()
-        return marriage.place if marriage else None
+        return marriage.get_place_name() if marriage else None
 
     def is_divorced(self) -> bool:
         """Check if the couple is divorced.

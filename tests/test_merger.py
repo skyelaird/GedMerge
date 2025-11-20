@@ -131,12 +131,12 @@ class TestPersonMerger:
             person_id=1,
             sex='M',
             names=[
-                RMName(name_id=1, given='John', surname='Smith'),
-                RMName(name_id=2, given='Jack', surname='Smith')
+                RMName(name_id=1, owner_id=1, given='John', surname='Smith'),
+                RMName(name_id=2, owner_id=2, given='Jack', surname='Smith')
             ],
             events=[
-                RMEvent(event_id=1, event_type='Birth', date='1900'),
-                RMEvent(event_id=2, event_type='Death', date='1980')
+                RMEvent(event_id=1, event_type=1, owner_type=0, owner_id=1, date='1900'),
+                RMEvent(event_id=2, event_type=2, owner_type=0, owner_id=1, date='1980')
             ]
         )
 
@@ -144,7 +144,7 @@ class TestPersonMerger:
             person_id=2,
             sex='M',
             names=[
-                RMName(name_id=3, given='John', surname='Smith')
+                RMName(name_id=3, owner_id=3, given='John', surname='Smith')
             ]
         )
 
@@ -206,12 +206,12 @@ class TestPersonMerger:
         merger = PersonMerger(db)
 
         names1 = [
-            RMName(name_id=1, given='John', surname='Smith', language='en')
+            RMName(name_id=1, owner_id=1, given='John', surname='Smith', language='en')
         ]
 
         names2 = [
-            RMName(name_id=2, given='John', surname='Smith', language='en'),  # Duplicate
-            RMName(name_id=3, given='Jean', surname='Smith', language='fr')   # Variant
+            RMName(name_id=2, owner_id=2, given='John', surname='Smith', language='en'),  # Duplicate
+            RMName(name_id=3, owner_id=3, given='Jean', surname='Smith', language='fr')   # Variant
         ]
 
         conflicts = []
@@ -242,12 +242,12 @@ class TestPersonMerger:
         merger = PersonMerger(db)
 
         events1 = [
-            RMEvent(event_id=1, event_type='Birth', date='1900', place='London')
+            RMEvent(event_id=1, event_type=1, owner_type=0, owner_id=1, date='1900', place_id=1)
         ]
 
         events2 = [
-            RMEvent(event_id=2, event_type='Birth', date='1900', place='London'),  # Duplicate
-            RMEvent(event_id=3, event_type='Death', date='1980', place='Paris')     # Different
+            RMEvent(event_id=2, event_type=1, owner_type=0, owner_id=2, date='1900', place_id=1),  # Duplicate
+            RMEvent(event_id=3, event_type=2, owner_type=0, owner_id=2, date='1980', place_id=2)     # Different
         ]
 
         conflicts = []
@@ -278,6 +278,7 @@ class TestPersonMerger:
 
         name1 = RMName(
             name_id=1,
+                owner_id=1,
             given='John',
             surname='Smith',
             language='en'
@@ -285,6 +286,7 @@ class TestPersonMerger:
 
         name2 = RMName(
             name_id=2,
+                owner_id=2,
             given='John',
             surname='Smith',
             language='en'
@@ -314,6 +316,7 @@ class TestPersonMerger:
 
         name1 = RMName(
             name_id=1,
+                owner_id=1,
             given='Wilhelm',
             surname='Schmidt',
             language='de',
@@ -323,6 +326,7 @@ class TestPersonMerger:
 
         name2 = RMName(
             name_id=2,
+                owner_id=2,
             given='William',
             surname='Smith',
             language='en',
