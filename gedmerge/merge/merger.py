@@ -479,19 +479,19 @@ class PersonMerger:
         return (
             event1.event_type == event2.event_type and
             event1.date == event2.date and
-            event1.place == event2.place
+            event1.place_id == event2.place_id
         )
 
     def _is_event_more_complete(self, event1: RMEvent, event2: RMEvent) -> bool:
         """Check if event1 is more complete than event2."""
         score1 = (
             bool(event1.date) +
-            bool(event1.place) +
+            bool(event1.place_id) +
             bool(event1.details)
         )
         score2 = (
             bool(event2.date) +
-            bool(event2.place) +
+            bool(event2.place_id) +
             bool(event2.details)
         )
         return score1 > score2
