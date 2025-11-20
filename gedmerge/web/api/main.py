@@ -23,6 +23,8 @@ from ...ml.models import (
 )
 from ...ml.utils import ModelRegistry, MLConfig
 from ...rootsmagic.adapter import RootsMagicDatabase
+from ...utils.date_decoder import decode_rootsmagic_date
+from ...utils.audit_trail import AuditTrail
 
 # Import continual learning router
 from .continual_learning import router as learning_router
@@ -712,139 +714,153 @@ async def repair_places(request: RepairRequest):
         logger.info(f"Repairing places in {request.database_path}")
 
         # Start audit session
-        session_id = audit.start_session("repair_places", {"database": str(request.database_path)})
+        session_id = audit.start_session(
+            operation_name="repair_places",
+            metadata={"database_path": request.database_path}
+        )
 
-        with db.transaction():
-            cursor = db.conn.cursor()
+        try:
+            with db.transaction():
+                cursor = db.conn.cursor()
 
-            # Get all places
-            cursor.execute("SELECT PlaceID, Name FROM PlaceTable ORDER BY PlaceID")
-            places = cursor.fetchall()
+                # Get all places
+                cursor.execute("SELECT PlaceID, Name FROM PlaceTable ORDER BY PlaceID")
+                places = cursor.fetchall()
 
-            logger.info(f"Found {len(places)} places to analyze")
+                logger.info(f"Found {len(places)} places to analyze")
 
-            # Track place normalization mapping
-            place_mapping = {}  # Maps old PlaceID to new PlaceID
+                # Track place normalization mapping
+                place_mapping = {}  # Maps old PlaceID to new PlaceID
 
-            # Helper function to remove postal codes
-            def remove_postal_code(place_name):
-                if not place_name:
-                    return place_name
-                patterns = [
-                    r',?\s*\b[A-Z]\d[A-Z]\s?\d[A-Z]\d\b',  # Canadian
-                    r',?\s*\b\d{5}(?:-\d{4})?\b',  # US ZIP
-                    r',?\s*\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b',  # UK
-                ]
-                cleaned = place_name
-                for pattern in patterns:
-                    cleaned = re.sub(pattern, '', cleaned)
-                cleaned = re.sub(r',\s*,', ',', cleaned)
-                cleaned = re.sub(r',\s*$', '', cleaned)
-                cleaned = re.sub(r'^\s*,', '', cleaned)
-                return cleaned.strip()
+                # Helper function to remove postal codes
+                def remove_postal_code(place_name):
+                    if not place_name:
+                        return place_name
+                    patterns = [
+                        r',?\s*\b[A-Z]\d[A-Z]\s?\d[A-Z]\d\b',  # Canadian
+                        r',?\s*\b\d{5}(?:-\d{4})?\b',  # US ZIP
+                        r',?\s*\b[A-Z]{1,2}\d{1,2}\s?\d[A-Z]{2}\b',  # UK
+                    ]
+                    cleaned = place_name
+                    for pattern in patterns:
+                        cleaned = re.sub(pattern, '', cleaned)
+                    cleaned = re.sub(r',\s*,', ',', cleaned)
+                    cleaned = re.sub(r',\s*$', '', cleaned)
+                    cleaned = re.sub(r'^\s*,', '', cleaned)
+                    return cleaned.strip()
 
-            # Helper function to standardize place format
-            def standardize_place(place_name):
-                if not place_name:
-                    return place_name
-                # Remove postal codes
-                cleaned = remove_postal_code(place_name)
-                # Trim whitespace around commas
-                cleaned = re.sub(r'\s*,\s*', ', ', cleaned)
-                # Remove duplicate commas and trim
-                cleaned = re.sub(r',+', ',', cleaned)
-                cleaned = cleaned.strip().strip(',').strip()
-                return cleaned
+                # Helper function to standardize place format
+                def standardize_place(place_name):
+                    if not place_name:
+                        return place_name
+                    # Remove postal codes
+                    cleaned = remove_postal_code(place_name)
+                    # Trim whitespace around commas
+                    cleaned = re.sub(r'\s*,\s*', ', ', cleaned)
+                    # Remove duplicate commas and trim
+                    cleaned = re.sub(r',+', ',', cleaned)
+                    cleaned = cleaned.strip().strip(',').strip()
+                    return cleaned
 
-            # Normalize and deduplicate places
-            normalized_places = {}  # Maps normalized name to original PlaceID
+                # Normalize and deduplicate places
+                normalized_places = {}  # Maps normalized name to original PlaceID
 
-            for place_id, place_name in places:
-                normalized = standardize_place(place_name)
+                for place_id, place_name in places:
+                    normalized = standardize_place(place_name)
 
-                if normalized != place_name:
-                    standardized += 1
-
-                # Track for deduplication (case-insensitive)
-                norm_key = normalized.lower() if normalized else ""
-
-                if norm_key in normalized_places:
-                    # This is a duplicate
-                    original_place_id = normalized_places[norm_key]
-                    place_mapping[place_id] = original_place_id
-                    merged += 1
-                else:
-                    # First occurrence
-                    normalized_places[norm_key] = place_id
-                    place_mapping[place_id] = place_id
-
-                    # Update the place name if it was standardized
-                    if normalized != place_name and normalized:
-                        cursor.execute("""
-                            UPDATE PlaceTable
-                            SET Name = ?
-                            WHERE PlaceID = ?
-                        """, (normalized, place_id))
-
-                        # Log to audit trail
+                    if normalized != place_name:
+                        standardized += 1
+                        # Log the standardization
                         audit.log_change(
-                            operation_type=OperationType.PLACE_STANDARDIZE,
+                            session_id=session_id,
                             table_name="PlaceTable",
                             record_id=place_id,
                             field_name="Name",
                             old_value=place_name,
                             new_value=normalized,
-                            reason="Standardized place name format",
-                            session_id=session_id
+                            reason="Place name standardization"
                         )
 
-            # Update all references to merged places in EventTable
-            for old_place_id, new_place_id in place_mapping.items():
-                if old_place_id != new_place_id:
-                    cursor.execute("""
-                        UPDATE EventTable
-                        SET PlaceID = ?
-                        WHERE PlaceID = ?
-                    """, (new_place_id, old_place_id))
+                    # Track for deduplication (case-insensitive)
+                    norm_key = normalized.lower() if normalized else ""
 
-                    # Delete the duplicate place
-                    cursor.execute("DELETE FROM PlaceTable WHERE PlaceID = ?", (old_place_id,))
-                    updated += 1
+                    if norm_key in normalized_places:
+                        # This is a duplicate
+                        original_place_id = normalized_places[norm_key]
+                        place_mapping[place_id] = original_place_id
+                        merged += 1
+                        # Log the merge
+                        audit.log_change(
+                            session_id=session_id,
+                            table_name="PlaceTable",
+                            record_id=place_id,
+                            field_name="merged_to",
+                            old_value=str(place_id),
+                            new_value=str(original_place_id),
+                            reason=f"Merged duplicate place '{normalized}'"
+                        )
+                    else:
+                        # First occurrence
+                        normalized_places[norm_key] = place_id
+                        place_mapping[place_id] = place_id
 
-                    # Log to audit trail
-                    audit.log_change(
-                        operation_type=OperationType.PLACE_MERGE,
-                        table_name="PlaceTable",
-                        record_id=old_place_id,
-                        field_name="PlaceID",
-                        old_value=old_place_id,
-                        new_value=new_place_id,
-                        reason=f"Merged duplicate place into {new_place_id}",
-                        session_id=session_id
-                    )
+                        # Update the place name if it was standardized
+                        if normalized != place_name and normalized:
+                            cursor.execute("""
+                                UPDATE PlaceTable
+                                SET Name = ?
+                                WHERE PlaceID = ?
+                            """, (normalized, place_id))
 
-        logger.info(f"Places repair completed: {standardized} standardized, {merged} merged, {updated} updated")
+                # Update all references to merged places in EventTable
+                for old_place_id, new_place_id in place_mapping.items():
+                    if old_place_id != new_place_id:
+                        cursor.execute("""
+                            UPDATE EventTable
+                            SET PlaceID = ?
+                            WHERE PlaceID = ?
+                        """, (new_place_id, old_place_id))
 
-        # End audit session
-        total_places = len(places)
-        audit.end_session(session_id, "completed", total_places, standardized + updated)
+                        # Delete the duplicate place
+                        cursor.execute("DELETE FROM PlaceTable WHERE PlaceID = ?", (old_place_id,))
+                        updated += 1
 
-        return {
-            "standardized": standardized,
-            "merged": merged,
-            "updated": updated,
-            "audit_session_id": session_id,
-            "status": "completed",
-        }
+            # End audit session successfully
+            audit.end_session(
+                session_id=session_id,
+                status="completed",
+                total_records_processed=len(places),
+                total_records_updated=standardized + updated,
+                metadata={
+                    "standardized": standardized,
+                    "merged": merged,
+                    "updated": updated
+                }
+            )
+
+            logger.info(f"Places repair completed: {standardized} standardized, {merged} merged, {updated} updated")
+
+            return {
+                "standardized": standardized,
+                "merged": merged,
+                "updated": updated,
+                "status": "completed",
+                "session_id": session_id,
+            }
+
+        except Exception as inner_e:
+            # End audit session with error
+            audit.end_session(
+                session_id=session_id,
+                status="failed",
+                total_records_processed=len(places) if 'places' in locals() else 0,
+                total_records_updated=standardized + updated,
+                metadata={"error": str(inner_e)}
+            )
+            raise
 
     except Exception as e:
         logger.error(f"Error repairing places: {e}", exc_info=True)
-        # End audit session with error status if it was started
-        try:
-            if 'audit' in locals() and 'session_id' in locals():
-                audit.end_session(session_id, "failed", 0, 0)
-        except:
-            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -1074,7 +1090,6 @@ async def repair_events(request: RepairRequest):
 
         dates_fixed = 0
         dates_decoded = 0
-        dates_normalized = 0
         formats_standardized = 0
         chronological_fixed = 0
         total_updated = 0
@@ -1082,145 +1097,153 @@ async def repair_events(request: RepairRequest):
         logger.info(f"Repairing events in {request.database_path}")
 
         # Start audit session
-        session_id = audit.start_session("repair_events", {"database": str(request.database_path)})
+        session_id = audit.start_session(
+            operation_name="repair_events",
+            metadata={"database_path": request.database_path}
+        )
 
-        with db.transaction():
-            cursor = db.conn.cursor()
+        try:
+            with db.transaction():
+                cursor = db.conn.cursor()
 
-            # Get all events with their dates
-            cursor.execute("""
-                SELECT EventID, OwnerType, OwnerID, EventType, Date, SortDate, Details
-                FROM EventTable
-                ORDER BY OwnerType, OwnerID, SortDate
-            """)
-            events = cursor.fetchall()
+                # Get all events with their dates
+                cursor.execute("""
+                    SELECT EventID, OwnerType, OwnerID, EventType, Date, SortDate, Details
+                    FROM EventTable
+                    ORDER BY OwnerType, OwnerID, SortDate
+                """)
+                events = cursor.fetchall()
 
-            logger.info(f"Found {len(events)} events to analyze")
+                logger.info(f"Found {len(events)} events to analyze")
 
-            # Group events by person to check chronological order
-            person_events = {}
-            for event_id, owner_type, owner_id, event_type, date, sort_date, details in events:
-                if owner_type == 0:  # Person event
-                    if owner_id not in person_events:
-                        person_events[owner_id] = []
-                    person_events[owner_id].append({
-                        'event_id': event_id,
-                        'event_type': event_type,
-                        'date': date,
-                        'sort_date': sort_date,
-                        'details': details
-                    })
+                # Group events by person to check chronological order
+                person_events = {}
+                for event_id, owner_type, owner_id, event_type, date, sort_date, details in events:
+                    if owner_type == 0:  # Person event
+                        if owner_id not in person_events:
+                            person_events[owner_id] = []
+                        person_events[owner_id].append({
+                            'event_id': event_id,
+                            'event_type': event_type,
+                            'date': date,
+                            'sort_date': sort_date,
+                            'details': details
+                        })
 
-            # Check chronological order for each person
-            # Event types: 1=Birth, 2=Death, 3=Burial, etc.
-            for person_id, events_list in person_events.items():
-                birth_events = [e for e in events_list if e['event_type'] == 1]
-                death_events = [e for e in events_list if e['event_type'] == 2]
+                # Check chronological order for each person
+                # Event types: 1=Birth, 2=Death, 3=Burial, etc.
+                for person_id, events_list in person_events.items():
+                    birth_events = [e for e in events_list if e['event_type'] == 1]
+                    death_events = [e for e in events_list if e['event_type'] == 2]
 
-                # Check if birth comes after death
-                if birth_events and death_events:
-                    birth_date = birth_events[0]['sort_date']
-                    death_date = death_events[0]['sort_date']
+                    # Check if birth comes after death
+                    if birth_events and death_events:
+                        birth_date = birth_events[0]['sort_date']
+                        death_date = death_events[0]['sort_date']
 
-                    if birth_date and death_date and birth_date > death_date:
-                        # Chronological error detected
-                        logger.warning(f"Person {person_id} has birth after death: birth={birth_date}, death={death_date}")
-                        chronological_fixed += 1
+                        if birth_date and death_date and birth_date > death_date:
+                            # Chronological error detected
+                            logger.warning(f"Person {person_id} has birth after death: birth={birth_date}, death={death_date}")
+                            chronological_fixed += 1
 
-            # Standardize date formats and decode dates
-            for event_id, owner_type, owner_id, event_type, date, sort_date, details in events:
-                updated = False
-                new_date = date
-                new_sort_date = sort_date
+                # Process and normalize dates using Date Decoder
+                for event_id, owner_type, owner_id, event_type, date, sort_date, details in events:
+                    updated = False
+                    new_date = date
+                    new_sort_date = sort_date
+                    reason = []
 
-                # Try to decode and normalize the date using the date decoder
-                decoded_date = decode_rootsmagic_date(date, sort_date)
-
-                if decoded_date and decoded_date != date:
-                    # Date was successfully decoded/normalized
-                    new_date = decoded_date
-                    updated = True
-
-                    # Check if it was decoded from SortDate (no valid date string but valid SortDate)
-                    if not date or not re.search(r'\d{3,4}', date):
-                        dates_decoded += 1
-                        logger.debug(f"Event {event_id}: Decoded SortDate {sort_date} -> {decoded_date}")
-                    else:
-                        dates_normalized += 1
-                        logger.debug(f"Event {event_id}: Normalized date '{date}' -> '{decoded_date}'")
-
-                elif date:
-                    # Fall back to basic cleaning if decoder couldn't parse
-                    # Remove extra whitespace
-                    cleaned_date = re.sub(r'\s+', ' ', date).strip()
-                    if cleaned_date != date:
-                        new_date = cleaned_date
-                        updated = True
-                        formats_standardized += 1
-
-                    # Standardize common date patterns
-                    # Convert "01-15-2020" to "15 Jan 2020" format
-                    date_match = re.match(r'(\d{1,2})-(\d{1,2})-(\d{4})', cleaned_date)
-                    if date_match:
-                        month_num = int(date_match.group(1))
-                        day = date_match.group(2)
-                        year = date_match.group(3)
-                        month_names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                        if 1 <= month_num <= 12:
-                            new_date = f"{day} {month_names[month_num]} {year}"
+                    if date:
+                        # Use Date Decoder to normalize dates
+                        decoded_date = decode_rootsmagic_date(date, sort_date)
+                        if decoded_date != date:
+                            old_date = date
+                            new_date = decoded_date
                             updated = True
-                            dates_fixed += 1
+                            dates_decoded += 1
+                            reason.append("Date decoded/normalized")
 
-                if updated:
-                    utc_mod_date = int(datetime.now().timestamp())
-                    cursor.execute("""
-                        UPDATE EventTable
-                        SET Date = ?
-                        WHERE EventID = ?
-                    """, (new_date, event_id))
-                    total_updated += 1
+                            # Log the change to audit trail
+                            audit.log_change(
+                                session_id=session_id,
+                                table_name="EventTable",
+                                record_id=event_id,
+                                field_name="Date",
+                                old_value=old_date,
+                                new_value=new_date,
+                                reason="Date decoding and normalization"
+                            )
 
-                    # Log to audit trail
-                    operation_type = (
-                        OperationType.EVENT_DATE_FIX if dates_decoded > 0 or dates_normalized > 0
-                        else OperationType.EVENT_DATE_STANDARDIZE
-                    )
-                    audit.log_change(
-                        operation_type=operation_type,
-                        table_name="EventTable",
-                        record_id=event_id,
-                        field_name="Date",
-                        old_value=date,
-                        new_value=new_date,
-                        reason=f"Date decoder: {date} -> {new_date}",
-                        session_id=session_id
-                    )
+                        # Remove extra whitespace
+                        cleaned_date = re.sub(r'\s+', ' ', new_date).strip()
+                        if cleaned_date != new_date:
+                            new_date = cleaned_date
+                            updated = True
+                            formats_standardized += 1
+                            reason.append("Whitespace standardized")
 
-        logger.info(f"Events repair completed: {dates_decoded} decoded, {dates_normalized} normalized, {dates_fixed} dates, {formats_standardized} formats, {chronological_fixed} chronological, {total_updated} total updated")
+                        # Standardize common date patterns
+                        # Convert "01-15-2020" to "15 Jan 2020" format
+                        date_match = re.match(r'(\d{1,2})-(\d{1,2})-(\d{4})', cleaned_date)
+                        if date_match:
+                            month_num = int(date_match.group(1))
+                            day = date_match.group(2)
+                            year = date_match.group(3)
+                            month_names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                            if 1 <= month_num <= 12:
+                                new_date = f"{day} {month_names[month_num]} {year}"
+                                updated = True
+                                dates_fixed += 1
+                                reason.append("Date format standardized")
 
-        # End audit session
-        audit.end_session(session_id, "completed", len(events), total_updated)
+                    if updated:
+                        cursor.execute("""
+                            UPDATE EventTable
+                            SET Date = ?
+                            WHERE EventID = ?
+                        """, (new_date, event_id))
+                        total_updated += 1
 
-        return {
-            "dates_decoded": dates_decoded,
-            "dates_normalized": dates_normalized,
-            "dates_fixed": dates_fixed,
-            "formats_standardized": formats_standardized,
-            "chronological_fixed": chronological_fixed,
-            "total_updated": total_updated,
-            "audit_session_id": session_id,
-            "status": "completed",
-        }
+            # End audit session successfully
+            audit.end_session(
+                session_id=session_id,
+                status="completed",
+                total_records_processed=len(events),
+                total_records_updated=total_updated,
+                metadata={
+                    "dates_fixed": dates_fixed,
+                    "dates_decoded": dates_decoded,
+                    "formats_standardized": formats_standardized,
+                    "chronological_fixed": chronological_fixed
+                }
+            )
+
+            logger.info(f"Events repair completed: {dates_decoded} decoded, {dates_fixed} fixed, {formats_standardized} formats, {chronological_fixed} chronological, {total_updated} total updated")
+
+            return {
+                "dates_decoded": dates_decoded,
+                "dates_fixed": dates_fixed,
+                "formats_standardized": formats_standardized,
+                "chronological_fixed": chronological_fixed,
+                "total_updated": total_updated,
+                "status": "completed",
+                "session_id": session_id,
+            }
+
+        except Exception as inner_e:
+            # End audit session with error
+            audit.end_session(
+                session_id=session_id,
+                status="failed",
+                total_records_processed=len(events) if 'events' in locals() else 0,
+                total_records_updated=total_updated,
+                metadata={"error": str(inner_e)}
+            )
+            raise
 
     except Exception as e:
         logger.error(f"Error repairing events: {e}", exc_info=True)
-        # End audit session with error status if it was started
-        try:
-            if 'audit' in locals() and 'session_id' in locals():
-                audit.end_session(session_id, "failed", 0, 0)
-        except:
-            pass
         raise HTTPException(status_code=500, detail=str(e))
 
 
