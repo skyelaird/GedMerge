@@ -65,6 +65,7 @@ class TestMatchScorer:
             sex='M',
             names=[RMName(
                 name_id=1,
+                owner_id=1,
                 given='John',
                 surname='Smith',
                 surname_mp='SM0',
@@ -77,6 +78,7 @@ class TestMatchScorer:
             sex='M',
             names=[RMName(
                 name_id=2,
+                owner_id=2,
                 given='John',
                 surname='Smith',
                 surname_mp='SM0',
@@ -99,6 +101,7 @@ class TestMatchScorer:
             sex='F',
             names=[RMName(
                 name_id=1,
+                owner_id=1,
                 given='Catherine',
                 surname='Smith',
                 surname_mp='SM0',
@@ -111,6 +114,7 @@ class TestMatchScorer:
             sex='F',
             names=[RMName(
                 name_id=2,
+                owner_id=2,
                 given='Katherine',
                 surname='Smith',
                 surname_mp='SM0',
@@ -134,6 +138,7 @@ class TestMatchScorer:
             names=[
                 RMName(
                     name_id=1,
+                owner_id=1,
                     given='Wilhelm',
                     surname='Schmidt',
                     language='de',
@@ -149,6 +154,7 @@ class TestMatchScorer:
             names=[
                 RMName(
                     name_id=2,
+                owner_id=2,
                     given='William',
                     surname='Smith',
                     language='en',
@@ -169,13 +175,13 @@ class TestMatchScorer:
         person1 = RMPerson(
             person_id=1,
             sex='M',
-            names=[RMName(name_id=1, given='John', surname='Smith')]
+            names=[RMName(name_id=1, owner_id=1, given='John', surname='Smith')]
         )
 
         person2 = RMPerson(
             person_id=2,
             sex='F',
-            names=[RMName(name_id=2, given='John', surname='Smith')]
+            names=[RMName(name_id=2, owner_id=2, given='John', surname='Smith')]
         )
 
         scorer = MatchScorer()
@@ -191,13 +197,15 @@ class TestMatchScorer:
         person1 = RMPerson(
             person_id=1,
             sex='M',
-            names=[RMName(name_id=1, given='John', surname='Smith')],
+            names=[RMName(name_id=1, owner_id=1, given='John', surname='Smith')],
             events=[
                 RMEvent(
                     event_id=1,
-                    event_type='Birth',
+                    event_type=1,  # Birth
+                    owner_type=0,  # Person event
+                    owner_id=1,
                     date='1 JAN 1900',
-                    place='London'
+                    place_id=1
                 )
             ]
         )
@@ -205,13 +213,15 @@ class TestMatchScorer:
         person2 = RMPerson(
             person_id=2,
             sex='M',
-            names=[RMName(name_id=2, given='John', surname='Smith')],
+            names=[RMName(name_id=2, owner_id=2, given='John', surname='Smith')],
             events=[
                 RMEvent(
                     event_id=2,
-                    event_type='Birth',
+                    event_type=1,  # Birth
+                    owner_type=0,  # Person event
+                    owner_id=2,
                     date='15 MAR 1900',  # Same year
-                    place='London'
+                    place_id=1
                 )
             ]
         )
@@ -229,6 +239,7 @@ class TestMatchScorer:
             sex='M',
             names=[RMName(
                 name_id=1,
+                owner_id=1,
                 given='William',
                 surname='Smith',
                 nickname='Bill'
@@ -240,6 +251,7 @@ class TestMatchScorer:
             sex='M',
             names=[RMName(
                 name_id=2,
+                owner_id=2,
                 given='Bill',
                 surname='Smith'
             )]

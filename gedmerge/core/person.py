@@ -151,7 +151,7 @@ class Person:
             Birth place or None
         """
         birth = self.get_birth_event()
-        return birth.place if birth else None
+        return birth.get_place_name() if birth else None
 
     def is_living(self) -> bool:
         """Determine if the person is likely still living.

@@ -155,7 +155,7 @@ def test_parse_family_events(parser, sample_gedcom_file):
     assert marriage is not None
     assert marriage.type == 'MARR'
     assert '1974' in marriage.date
-    assert 'Paris' in marriage.place
+    assert 'Paris' in marriage.get_place_name()
 
 
 def test_individual_family_links(parser, sample_gedcom_file):

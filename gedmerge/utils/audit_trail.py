@@ -7,7 +7,7 @@ Tracks all changes made during repair operations for transparency and rollback c
 import json
 import sqlite3
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from enum import Enum
