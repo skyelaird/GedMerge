@@ -279,13 +279,13 @@ class PersonMerger:
         # Criterion 1: Data completeness
         score1 += len(person1.names or []) * 2
         score1 += len(person1.events or [])
-        score1 += len(person1.spouse_family_ids or [])
-        score1 += len(person1.parent_family_ids or [])
+        # Note: RMPerson doesn't have spouse_family_ids or parent_family_ids attributes
+        # Family relationships are tracked in separate database tables
 
         score2 += len(person2.names or []) * 2
         score2 += len(person2.events or [])
-        score2 += len(person2.spouse_family_ids or [])
-        score2 += len(person2.parent_family_ids or [])
+        # Note: RMPerson doesn't have spouse_family_ids or parent_family_ids attributes
+        # Family relationships are tracked in separate database tables
 
         # Criterion 2: Earlier ID (older record, likely more vetted)
         if person1.person_id < person2.person_id:
